@@ -43,7 +43,7 @@ namespace Cloo
         #region Fields
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ComputeContextPropertyName _name;
+        private readonly cl_context_properties _name;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly IntPtr _value;
@@ -53,10 +53,10 @@ namespace Cloo
         #region Properties
 
         /// <summary>
-        /// Gets the <see cref="ComputeContextPropertyName"/> of the <see cref="ComputeContextProperty"/>.
+        /// Gets the <see cref="cl_context_properties"/> of the <see cref="ComputeContextProperty"/>.
         /// </summary>
-        /// <value> The <see cref="ComputeContextPropertyName"/> of the <see cref="ComputeContextProperty"/>. </value>
-        public ComputeContextPropertyName Name => _name;
+        /// <value> The <see cref="cl_context_properties"/> of the <see cref="ComputeContextProperty"/>. </value>
+        public cl_context_properties Name => _name;
 
         /// <summary>
         /// Gets the value of the <see cref="ComputeContextProperty"/>.
@@ -73,7 +73,7 @@ namespace Cloo
         /// </summary>
         /// <param name="name"> The name of the <see cref="ComputeContextProperty"/>. </param>
         /// <param name="value"> The value of the created <see cref="ComputeContextProperty"/>. </param>
-        public ComputeContextProperty(ComputeContextPropertyName name, IntPtr value)
+        public ComputeContextProperty(cl_context_properties name, IntPtr value)
         {
             _name = name;
             _value = value;

@@ -54,8 +54,8 @@ namespace Cloo.Bindings
             string options,
             int num_input_headers,
             [MarshalAs(UnmanagedType.LPArray)] CLProgramHandle[] input_headers,
-            [MarshalAs(UnmanagedType.LPArray)] String[] header_include_names,
-            ComputeProgramBuildNotifier pfn_notify,
+            string[] header_include_names,
+            cl_program_callback pfn_notify,
             IntPtr user_data);
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateImage")]
         public static extern CLImageHandle CreateImage(
             CLContextHandle context,
-            ComputeMemoryFlags flags,
+            cl_mem_flags flags,
             ref cl_image_format image_format,
             cl_image_desc image_desc,
             IntPtr host_ptr,
@@ -77,7 +77,7 @@ namespace Cloo.Bindings
         public static extern CLImageHandle CreateImageWithProperties(
             CLContextHandle context,
             [MarshalAs(UnmanagedType.LPArray)] long[] properties,
-            ComputeMemoryFlags flags,
+            cl_mem_flags flags,
             ref cl_image_format image_format,
             cl_image_desc image_desc,
             IntPtr host_ptr,
@@ -162,7 +162,7 @@ namespace Cloo.Bindings
             CLCommandQueueHandle command_queue,
             int num_mem_objects,
             [MarshalAs(UnmanagedType.LPArray)] CLMemoryHandle[] mem_objects,
-            ComputeMemoryMigrationFlags flags,
+            cl_mem_migration_flags flags,
             int num_events_in_wait_list,
             [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
             [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
@@ -174,7 +174,7 @@ namespace Cloo.Bindings
         public static extern ComputeErrorCode GetKernelArgInfo(
             CLKernelHandle kernel,
             int arg_index,
-            ComputeKernelArgInfo param_name,
+            cl_kernel_arg_info param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -190,7 +190,7 @@ namespace Cloo.Bindings
             string options,
             int num_input_programs,
             [MarshalAs(UnmanagedType.LPArray)] CLProgramHandle[] input_programs,
-            ComputeProgramBuildNotifier notify,
+            cl_program_callback notify,
             IntPtr user_data,
             out ComputeErrorCode errcode_ret);
 
@@ -224,7 +224,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetExtensionFunctionAddressForPlatform")]
         public static extern IntPtr GetExtensionFunctionAddressForPlatform(
             CLPlatformHandle platform,
-            String func_name);
+            string func_name);
 
         #region Deprecated functions
 
@@ -234,7 +234,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateFromGLTexture2D(
             CLContextHandle context,
-            ComputeMemoryFlags flags,
+            cl_mem_flags flags,
             Int32 target,
             Int32 miplevel,
             Int32 texture,
@@ -250,7 +250,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateFromGLTexture3D(
             CLContextHandle context,
-            ComputeMemoryFlags flags,
+            cl_mem_flags flags,
             Int32 target,
             Int32 miplevel,
             Int32 texture,
@@ -266,7 +266,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateImage2D(
             CLContextHandle context,
-            ComputeMemoryFlags flags,
+            cl_mem_flags flags,
             ref ComputeImageFormat image_format,
             IntPtr image_width,
             IntPtr image_height,
@@ -284,7 +284,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateImage3D(
             CLContextHandle context,
-            ComputeMemoryFlags flags,
+            cl_mem_flags flags,
             ref ComputeImageFormat image_format,
             IntPtr image_width,
             IntPtr image_height,
@@ -366,11 +366,11 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        public ComputeImageChannelOrder image_channel_order;
+        public cl_channel_order image_channel_order;
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        public ComputeImageChannelType image_channel_data_type;
+        public cl_channel_type image_channel_data_type;
     }
 
     /// <summary>
@@ -381,7 +381,7 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        public ComputeMemoryType image_type;
+        public cl_mem_object_type image_type;
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>

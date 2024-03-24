@@ -97,7 +97,7 @@ namespace Cloo
         /// <param name="rowPitch"> The size in bytes of each row of elements of the <see cref="ComputeImage2D"/>. If <paramref name="rowPitch"/> is zero, OpenCL will compute the proper value based on <see cref="ComputeImage.Width"/> and <see cref="ComputeImage.ElementSize"/>. </param>
         /// <param name="data"> The data to initialize the <see cref="ComputeImage2D"/>. Can be <c>IntPtr.Zero</c>. </param>
         [Obsolete("Deprecated in OpenCL 1.2.")]
-        public ComputeImage2D(ComputeContext context, ComputeMemoryFlags flags, ComputeImageFormat format, int width, int height, long rowPitch, IntPtr data)
+        public ComputeImage2D(ComputeContext context, cl_mem_flags flags, ComputeImageFormat format, int width, int height, long rowPitch, IntPtr data)
             : base(context, flags)
         {
             Handle = CL12.CreateImage2D(context.Handle, flags, ref format, new IntPtr(width), new IntPtr(height), new IntPtr(rowPitch), data, out var error);
@@ -106,7 +106,7 @@ namespace Cloo
             Init();
         }
 
-        private ComputeImage2D(CLMemoryHandle handle, ComputeContext context, ComputeMemoryFlags flags)
+        private ComputeImage2D(CLMemoryHandle handle, ComputeContext context, cl_mem_flags flags)
             : base(context, flags)
         {
             Handle = handle;
@@ -125,7 +125,7 @@ namespace Cloo
         /// <param name="flags"> A bit-field that is used to specify usage information about the <see cref="ComputeImage2D"/>. Only <c>ComputeMemoryFlags.ReadOnly</c>, <c>ComputeMemoryFlags.WriteOnly</c> and <c>ComputeMemoryFlags.ReadWrite</c> are allowed. </param>
         /// <param name="renderbufferId"> The OpenGL renderbuffer object id to use. </param>
         /// <returns> The created <see cref="ComputeImage2D"/>. </returns>
-        public static ComputeImage2D CreateFromGLRenderbuffer(ComputeContext context, ComputeMemoryFlags flags, int renderbufferId)
+        public static ComputeImage2D CreateFromGLRenderbuffer(ComputeContext context, cl_mem_flags flags, int renderbufferId)
         {
             CLMemoryHandle image = CL12.CreateFromGLRenderbuffer(context.Handle, flags, renderbufferId, out var error);
             ComputeException.ThrowOnError(error);
@@ -143,7 +143,7 @@ namespace Cloo
         /// <param name="textureId"> The OpenGL 2D texture object id to use. </param>
         /// <returns> The created <see cref="ComputeImage2D"/>. </returns>
         [Obsolete("Deprecated in OpenCL 1.2.")]
-        public static ComputeImage2D CreateFromGLTexture2D(ComputeContext context, ComputeMemoryFlags flags, int textureTarget, int mipLevel, int textureId)
+        public static ComputeImage2D CreateFromGLTexture2D(ComputeContext context, cl_mem_flags flags, int textureTarget, int mipLevel, int textureId)
         {
             CLMemoryHandle image = CL12.CreateFromGLTexture2D(context.Handle, flags, textureTarget, mipLevel, textureId, out var error);
             ComputeException.ThrowOnError(error);
@@ -152,14 +152,14 @@ namespace Cloo
         }
 
         /// <summary>
-        /// Gets a collection of supported <see cref="ComputeImage2D"/> <see cref="ComputeImageFormat"/>s in a <see cref="ComputeContext"/>.
+        /// Gets a collection of supported <see cref="ComputeImage2D"/> <see cref="cl_image_format"/>s in a <see cref="ComputeContext"/>.
         /// </summary>
-        /// <param name="context"> The <see cref="ComputeContext"/> for which the collection of <see cref="ComputeImageFormat"/>s is queried. </param>
-        /// <param name="flags"> The <c>ComputeMemoryFlags</c> for which the collection of <see cref="ComputeImageFormat"/>s is queried. </param>
-        /// <returns> The collection of the required <see cref="ComputeImageFormat"/>s. </returns>
-        public static ICollection<ComputeImageFormat> GetSupportedFormats(ComputeContext context, ComputeMemoryFlags flags)
+        /// <param name="context"> The <see cref="ComputeContext"/> for which the collection of <see cref="cl_image_format"/>s is queried. </param>
+        /// <param name="flags"> The <c>ComputeMemoryFlags</c> for which the collection of <see cref="cl_image_format"/>s is queried. </param>
+        /// <returns> The collection of the required <see cref="cl_image_format"/>s. </returns>
+        public static ICollection<ComputeImageFormat> GetSupportedFormats(ComputeContext context, cl_mem_flags flags)
         {
-            return GetSupportedFormats(context, flags, ComputeMemoryType.CL_MEM_OBJECT_IMAGE2D);
+            return GetSupportedFormats(context, flags, cl_mem_object_type.CL_MEM_OBJECT_IMAGE2D);
         }
 
         #endregion

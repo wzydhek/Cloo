@@ -53,7 +53,7 @@ namespace Cloo
         /// Gets the current reference count of the <see cref="ComputeBufferBase{T}"/>.
         /// </summary>
         /// <value> The current reference count of the <see cref="ComputeBufferBase{T}"/>. </value>
-        public uint ReferenceCount => GetInfo<CLMemoryHandle, ComputeMemoryInfo, uint>(Handle, ComputeMemoryInfo.CL_MEM_REFERENCE_COUNT, CL12.GetMemObjectInfo);
+        public uint ReferenceCount => GetInfo<CLMemoryHandle, cl_mem_info, uint>(Handle, cl_mem_info.CL_MEM_REFERENCE_COUNT, CL12.GetMemObjectInfo);
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace Cloo
         /// </summary>
         /// <param name="context"></param>
         /// <param name="flags"></param>
-        protected ComputeBufferBase(ComputeContext context, ComputeMemoryFlags flags)
+        protected ComputeBufferBase(ComputeContext context, cl_mem_flags flags)
             : base(context, flags)
         { }
 
@@ -105,7 +105,7 @@ namespace Cloo
         {
             SetID(Handle.Value);
 
-            Size = (long)GetInfo<CLMemoryHandle, ComputeMemoryInfo, IntPtr>(Handle, ComputeMemoryInfo.CL_MEM_SIZE, CL12.GetMemObjectInfo);
+            Size = (long)GetInfo<CLMemoryHandle, cl_mem_info, IntPtr>(Handle, cl_mem_info.CL_MEM_SIZE, CL12.GetMemObjectInfo);
             Count = Size / ComputeTools.SizeOf<T>();
 
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");

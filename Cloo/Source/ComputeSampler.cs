@@ -48,10 +48,10 @@ namespace Cloo
         private readonly ComputeContext _context;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ComputeImageAddressing _addressing;
+        private readonly cl_addressing_mode _addressing;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ComputeImageFiltering _filtering;
+        private readonly cl_filter_mode _filtering;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly bool _normalizedCoords;
@@ -78,16 +78,16 @@ namespace Cloo
         public ComputeContext Context => _context;
 
         /// <summary>
-        /// Gets the <see cref="ComputeImageAddressing"/> mode of the <see cref="ComputeSampler"/>.
+        /// Gets the <see cref="cl_addressing_mode"/> mode of the <see cref="ComputeSampler"/>.
         /// </summary>
-        /// <value> The <see cref="ComputeImageAddressing"/> mode of the <see cref="ComputeSampler"/>. </value>
-        public ComputeImageAddressing Addressing => _addressing;
+        /// <value> The <see cref="cl_addressing_mode"/> mode of the <see cref="ComputeSampler"/>. </value>
+        public cl_addressing_mode Addressing => _addressing;
 
         /// <summary>
-        /// Gets the <see cref="ComputeImageFiltering"/> mode of the <see cref="ComputeSampler"/>.
+        /// Gets the <see cref="cl_filter_mode"/> mode of the <see cref="ComputeSampler"/>.
         /// </summary>
-        /// <value> The <see cref="ComputeImageFiltering"/> mode of the <see cref="ComputeSampler"/>. </value>
-        public ComputeImageFiltering Filtering => _filtering;
+        /// <value> The <see cref="cl_filter_mode"/> mode of the <see cref="ComputeSampler"/>. </value>
+        public cl_filter_mode Filtering => _filtering;
 
         /// <summary>
         /// Gets the state of usage of normalized x, y and z coordinates when accessing a <see cref="ComputeImage"/> in a <see cref="ComputeKernel"/> through the <see cref="ComputeSampler"/>.
@@ -104,9 +104,9 @@ namespace Cloo
         /// </summary>
         /// <param name="context"> A <see cref="ComputeContext"/>. </param>
         /// <param name="normalizedCoords"> The usage state of normalized coordinates when accessing a <see cref="ComputeImage"/> in a <see cref="ComputeKernel"/>. </param>
-        /// <param name="addressing"> The <see cref="ComputeImageAddressing"/> mode of the <see cref="ComputeSampler"/>. Specifies how out-of-range image coordinates are handled while reading. </param>
-        /// <param name="filtering"> The <see cref="ComputeImageFiltering"/> mode of the <see cref="ComputeSampler"/>. Specifies the type of filter that must be applied when reading data from an image. </param>
-        public ComputeSampler(ComputeContext context, bool normalizedCoords, ComputeImageAddressing addressing, ComputeImageFiltering filtering)
+        /// <param name="addressing"> The <see cref="cl_addressing_mode"/> mode of the <see cref="ComputeSampler"/>. Specifies how out-of-range image coordinates are handled while reading. </param>
+        /// <param name="filtering"> The <see cref="cl_filter_mode"/> mode of the <see cref="ComputeSampler"/>. Specifies the type of filter that must be applied when reading data from an image. </param>
+        public ComputeSampler(ComputeContext context, bool normalizedCoords, cl_addressing_mode addressing, cl_filter_mode filtering)
         {
             Handle = CL12.CreateSampler(context.Handle, normalizedCoords, addressing, filtering, out var error);
             ComputeException.ThrowOnError(error);

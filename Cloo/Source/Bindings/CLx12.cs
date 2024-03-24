@@ -31,7 +31,7 @@ namespace Cloo.Bindings
         }
 
         /// <summary> </summary>
-        public ComputeErrorCode GetGLContextInfoKHR(IntPtr[] properties, ComputeGLContextInfo param_name, IntPtr param_value_size, IntPtr param_value, out IntPtr param_value_size_ret)
+        public ComputeErrorCode GetGLContextInfoKHR(IntPtr[] properties, cl_gl_context_info param_name, IntPtr param_value_size, IntPtr param_value, out IntPtr param_value_size_ret)
         {
             if (clGetGLContextInfoKHR == null) throw new EntryPointNotFoundException();
             return clGetGLContextInfoKHR(properties, param_name, param_value_size, param_value, out param_value_size_ret);
@@ -102,7 +102,7 @@ namespace Cloo.Bindings
 
             internal delegate ComputeErrorCode clGetGLContextInfoKHR(
                 [MarshalAs(UnmanagedType.LPArray)] IntPtr[] properties,
-                ComputeGLContextInfo param_name,
+                cl_gl_context_info param_name,
                 IntPtr param_value_size,
                 IntPtr param_value,
                 out IntPtr param_value_size_ret);

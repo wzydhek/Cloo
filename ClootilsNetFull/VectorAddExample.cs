@@ -83,11 +83,11 @@ kernel void VectorAdd(
                 // Create the input buffers and fill them with data from the arrays.
                 // Access modifiers should match those in a kernel.
                 // CopyHostPointer means the buffer should be filled with the data provided in the last argument.
-                ComputeBuffer<float> a = new ComputeBuffer<float>(context, ComputeMemoryFlags.CL_MEM_READ_ONLY | ComputeMemoryFlags.CL_MEM_COPY_HOST_PTR, arrA);
-                ComputeBuffer<float> b = new ComputeBuffer<float>(context, ComputeMemoryFlags.CL_MEM_READ_ONLY | ComputeMemoryFlags.CL_MEM_COPY_HOST_PTR, arrB);
+                ComputeBuffer<float> a = new ComputeBuffer<float>(context, cl_mem_flags.CL_MEM_READ_ONLY | cl_mem_flags.CL_MEM_COPY_HOST_PTR, arrA);
+                ComputeBuffer<float> b = new ComputeBuffer<float>(context, cl_mem_flags.CL_MEM_READ_ONLY | cl_mem_flags.CL_MEM_COPY_HOST_PTR, arrB);
                 
                 // The output buffer doesn't need any data from the host. Only its size is specified (arrC.Length).
-                ComputeBuffer<float> c = new ComputeBuffer<float>(context, ComputeMemoryFlags.CL_MEM_WRITE_ONLY, arrC.Length);
+                ComputeBuffer<float> c = new ComputeBuffer<float>(context, cl_mem_flags.CL_MEM_WRITE_ONLY, arrC.Length);
 
                 // Create and build the opencl program.
                 program = new ComputeProgram(context, clProgramSource);
@@ -105,7 +105,7 @@ kernel void VectorAdd(
                 ComputeEventList eventList = new ComputeEventList();
                 
                 // Create the command queue. This is used to control kernel execution and manage read/write/copy operations.
-                ComputeCommandQueue commands = new ComputeCommandQueue(context, context.Devices[0], ComputeCommandQueueFlags.CL_QUEUE_NONE);
+                ComputeCommandQueue commands = new ComputeCommandQueue(context, context.Devices[0], cl_command_queue_properties.CL_QUEUE_NONE);
 
                 // Execute the kernel "count" times. After this call returns, "eventList" will contain an event associated with this command.
                 // If eventList == null or typeof(eventList) == ReadOnlyCollection<ComputeEventBase>, a new event will not be created.

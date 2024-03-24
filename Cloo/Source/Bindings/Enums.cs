@@ -287,7 +287,7 @@ namespace Cloo
     /// The platform info query symbols.
     /// cl_platform_info
     /// </summary>
-    public enum ComputePlatformInfo : int
+    public enum cl_platform_info : int
     {
         /// <summary> </summary>
         CL_PLATFORM_PROFILE = 0x0900,
@@ -300,17 +300,6 @@ namespace Cloo
         /// <summary> </summary>
         CL_PLATFORM_EXTENSIONS = 0x0904,
         /// <summary> </summary>
-        CL_PLATFORM_COMMAND_BUFFER_CAPABILITIES_KHR = 0x0908,
-        /// <summary> </summary>
-        CL_PLATFORM_ICD_SUFFIX_KHR = 0x0920,
-        /// <summary> </summary>
-        CL_PLATFORM_SEMAPHORE_TYPES_KHR = 0x2036,
-        /// <summary> </summary>
-        CL_PLATFORM_SEMAPHORE_IMPORT_HANDLE_TYPES_KHR = 0x2037,
-        /// <summary> </summary>
-        CL_PLATFORM_SEMAPHORE_EXPORT_HANDLE_TYPES_KHR = 0x2038,
-        /// <summary> </summary>
-        CL_PLATFORM_EXTERNAL_MEMORY_IMPORT_HANDLE_TYPES_KHR = 0x2044,
 
         // OpenCL 2.1
         /// <summary> </summary>
@@ -320,10 +309,6 @@ namespace Cloo
         /// <summary> </summary>
         CL_PLATFORM_NUMERIC_VERSION = 0x0906,
         /// <summary> </summary>
-        CL_PLATFORM_NUMERIC_VERSION_KHR = 0x0906,
-        /// <summary> </summary>
-        CL_PLATFORM_EXTENSIONS_WITH_VERSION = 0x0907,
-        /// <summary> </summary>
         CL_PLATFORM_EXTENSIONS_WITH_VERSION_KHR = 0x0907,
     }
 
@@ -332,29 +317,29 @@ namespace Cloo
     /// cl_device_type - bitfield
     /// </summary>
     [Flags]
-    public enum ComputeDeviceTypes : long
+    public enum cl_device_type : long
     {
         /// <summary> </summary>
-        Default = 1 << 0,
+        CL_DEVICE_TYPE_DEFAULT = 1 << 0,
         /// <summary> </summary>
-        Cpu = 1 << 1,
+        CL_DEVICE_TYPE_CPU = 1 << 1,
         /// <summary> </summary>
-        Gpu = 1 << 2,
+        CL_DEVICE_TYPE_GPU = 1 << 2,
         /// <summary> </summary>
-        Accelerator = 1 << 3,
+        CL_DEVICE_TYPE_ACCELERATOR = 1 << 3,
         /// <summary> </summary>
-        All = 0xFFFFFFFF,
+        CL_DEVICE_TYPE_ALL = 0xFFFFFFFF,
 
         // OpenCL 1.2
         /// <summary> </summary>
-        Custom = 1 << 4
+        CL_DEVICE_TYPE_CUSTOM = 1 << 4
     }
 
     /// <summary>
     /// The device info query symbols.
     /// cl_device_info
     /// </summary>
-    public enum ComputeDeviceInfo : int
+    public enum cl_device_info : int
     {
         /// <summary> </summary>
         CL_DEVICE_TYPE = 0x1000,
@@ -365,9 +350,9 @@ namespace Cloo
         /// <summary> </summary>
         CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS = 0x1003,
         /// <summary> </summary>
-        CL_DEVICE_MAX_WORK_GROUP_SIZE = 0x1004,
-        /// <summary> </summary>
         CL_DEVICE_MAX_WORK_ITEM_SIZES = 0x1005,
+        /// <summary> </summary>
+        CL_DEVICE_MAX_WORK_GROUP_SIZE = 0x1004,
         /// <summary> </summary>
         CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR = 0x1006,
         /// <summary> </summary>
@@ -385,11 +370,13 @@ namespace Cloo
         /// <summary> </summary>
         CL_DEVICE_ADDRESS_BITS = 0x100D,
         /// <summary> </summary>
+        CL_DEVICE_MAX_MEM_ALLOC_SIZE = 0x1010,
+        /// <summary> </summary>
+        CL_DEVICE_IMAGE_SUPPORT = 0x1016,
+        /// <summary> </summary>
         CL_DEVICE_MAX_READ_IMAGE_ARGS = 0x100E,
         /// <summary> </summary>
         CL_DEVICE_MAX_WRITE_IMAGE_ARGS = 0x100F,
-        /// <summary> </summary>
-        CL_DEVICE_MAX_MEM_ALLOC_SIZE = 0x1010,
         /// <summary> </summary>
         CL_DEVICE_IMAGE2D_MAX_WIDTH = 0x1011,
         /// <summary> </summary>
@@ -401,14 +388,13 @@ namespace Cloo
         /// <summary> </summary>
         CL_DEVICE_IMAGE3D_MAX_DEPTH = 0x1015,
         /// <summary> </summary>
-        CL_DEVICE_IMAGE_SUPPORT = 0x1016,
+        CL_DEVICE_MAX_SAMPLERS = 0x1018,
         /// <summary> </summary>
         CL_DEVICE_MAX_PARAMETER_SIZE = 0x1017,
         /// <summary> </summary>
-        CL_DEVICE_MAX_SAMPLERS = 0x1018,
-        /// <summary> </summary>
         CL_DEVICE_MEM_BASE_ADDR_ALIGN = 0x1019,
         /// <summary> </summary>
+        [Obsolete("Deprecated in OpenCL 1.2.")]
         CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE = 0x101A,
         /// <summary> </summary>
         CL_DEVICE_SINGLE_FP_CONFIG = 0x101B,
@@ -444,6 +430,8 @@ namespace Cloo
         [Obsolete("Deprecated in OpenCL 2.0.")]
         CL_DEVICE_QUEUE_PROPERTIES = 0x102A,
         /// <summary> </summary>
+        CL_DEVICE_PLATFORM = 0x1031,
+        /// <summary> </summary>
         CL_DEVICE_NAME = 0x102B,
         /// <summary> </summary>
         CL_DEVICE_VENDOR = 0x102C,
@@ -455,8 +443,19 @@ namespace Cloo
         CL_DEVICE_VERSION = 0x102F,
         /// <summary> </summary>
         CL_DEVICE_EXTENSIONS = 0x1030,
-        /// <summary> </summary>
-        CL_DEVICE_PLATFORM = 0x1031,
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary> </summary>
         CL_DEVICE_HALF_FP_CONFIG = 0x1033,
         /// <summary> </summary>
@@ -638,9 +637,6 @@ namespace Cloo
         /// <summary> </summary>
         CL_DEVICE_PREFERRED_VECTOR_WIDTH_HALF = 0x1034,
         /// <summary> </summary>
-        [Obsolete("Deprecated in OpenCL 2.0.")]
-        CL_DEVICE_HOST_UNIFIED_MEMORY = 0x1035,
-        /// <summary> </summary>
         CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR = 0x1036,
         /// <summary> </summary>
         CL_DEVICE_NATIVE_VECTOR_WIDTH_SHORT = 0x1037,
@@ -655,9 +651,17 @@ namespace Cloo
         /// <summary> </summary>
         CL_DEVICE_NATIVE_VECTOR_WIDTH_HALF = 0x103C,
         /// <summary> </summary>
+        [Obsolete("Deprecated in OpenCL 2.0.")]
+        CL_DEVICE_HOST_UNIFIED_MEMORY = 0x1035,
+        /// <summary> </summary>
+        [Obsolete("Deprecated in OpenCL 3.0.")]
         CL_DEVICE_OPENCL_C_VERSION = 0x103D,
 
         // OpenCL 1.2
+        /// <summary> </summary>
+        CL_DEVICE_IMAGE_MAX_BUFFER_SIZE = 0x1040,
+        /// <summary> </summary>
+        CL_DEVICE_IMAGE_MAX_ARRAY_SIZE = 0x1041,
         /// <summary> </summary>
         CL_DEVICE_DOUBLE_FP_CONFIG = 0x1032,
         /// <summary> </summary>
@@ -665,9 +669,9 @@ namespace Cloo
         /// <summary> </summary>
         CL_DEVICE_BUILT_IN_KERNELS = 0x103F,
         /// <summary> </summary>
-        CL_DEVICE_IMAGE_MAX_BUFFER_SIZE = 0x1040,
+        CL_DEVICE_PRINTF_BUFFER_SIZE = 0x1049,
         /// <summary> </summary>
-        CL_DEVICE_IMAGE_MAX_ARRAY_SIZE = 0x1041,
+        CL_DEVICE_PREFERRED_INTEROP_USER_SYNC = 0x1048,
         /// <summary> </summary>
         CL_DEVICE_PARENT_DEVICE = 0x1042,
         /// <summary> </summary>
@@ -680,24 +684,26 @@ namespace Cloo
         CL_DEVICE_PARTITION_TYPE = 0x1046,
         /// <summary> </summary>
         CL_DEVICE_REFERENCE_COUNT = 0x1047,
-        /// <summary> </summary>
-        CL_DEVICE_PREFERRED_INTEROP_USER_SYNC = 0x1048,
-        /// <summary> </summary>
-        CL_DEVICE_PRINTF_BUFFER_SIZE = 0x1049,
-        /// <summary> </summary>
-        CL_DEVICE_COMPUTE_UNITS_BITFIELD_ARM = 0x40BF,
 
         // OpenCL 2.0
         /// <summary> </summary>
-        CL_DEVICE_QUEUE_ON_HOST_PROPERTIES = 0x102A,
+        CL_DEVICE_MAX_READ_WRITE_IMAGE_ARGS = 0x104C,
         /// <summary> </summary>
         CL_DEVICE_IMAGE_PITCH_ALIGNMENT = 0x104A,
         /// <summary> </summary>
         CL_DEVICE_IMAGE_BASE_ADDRESS_ALIGNMENT = 0x104B,
         /// <summary> </summary>
-        CL_DEVICE_MAX_READ_WRITE_IMAGE_ARGS = 0x104C,
+        CL_DEVICE_MAX_PIPE_ARGS = 0x1055,
+        /// <summary> </summary>
+        CL_DEVICE_PIPE_MAX_ACTIVE_RESERVATIONS = 0x1056,
+        /// <summary> </summary>
+        CL_DEVICE_PIPE_MAX_PACKET_SIZE = 0x1057,
         /// <summary> </summary>
         CL_DEVICE_MAX_GLOBAL_VARIABLE_SIZE = 0x104D,
+        /// <summary> </summary>
+        CL_DEVICE_GLOBAL_VARIABLE_PREFERRED_TOTAL_SIZE = 0x1054,
+        /// <summary> </summary>
+        CL_DEVICE_QUEUE_ON_HOST_PROPERTIES = 0x102A,
         /// <summary> </summary>
         CL_DEVICE_QUEUE_ON_DEVICE_PROPERTIES = 0x104E,
         /// <summary> </summary>
@@ -710,14 +716,6 @@ namespace Cloo
         CL_DEVICE_MAX_ON_DEVICE_EVENTS = 0x1052,
         /// <summary> </summary>
         CL_DEVICE_SVM_CAPABILITIES = 0x1053,
-        /// <summary> </summary>
-        CL_DEVICE_GLOBAL_VARIABLE_PREFERRED_TOTAL_SIZE = 0x1054,
-        /// <summary> </summary>
-        CL_DEVICE_MAX_PIPE_ARGS = 0x1055,
-        /// <summary> </summary>
-        CL_DEVICE_PIPE_MAX_ACTIVE_RESERVATIONS = 0x1056,
-        /// <summary> </summary>
-        CL_DEVICE_PIPE_MAX_PACKET_SIZE = 0x1057,
         /// <summary> </summary>
         CL_DEVICE_PREFERRED_PLATFORM_ATOMIC_ALIGNMENT = 0x1058,
         /// <summary> </summary>
@@ -735,23 +733,17 @@ namespace Cloo
 
         // OpenCL 3.0
         /// <summary> </summary>
-        CL_DEVICE_NUMERIC_VERSION = 0x105E,
-        /// <summary> </summary>
-        CL_DEVICE_NUMERIC_VERSION_KHR = 0x105E,
-        /// <summary> </summary>
-        CL_DEVICE_OPENCL_C_NUMERIC_VERSION_KHR = 0x105F,
-        /// <summary> </summary>
-        CL_DEVICE_EXTENSIONS_WITH_VERSION = 0x1060,
-        /// <summary> </summary>
-        CL_DEVICE_EXTENSIONS_WITH_VERSION_KHR = 0x1060,
-        /// <summary> </summary>
         CL_DEVICE_ILS_WITH_VERSION = 0x1061,
-        /// <summary> </summary>
-        CL_DEVICE_ILS_WITH_VERSION_KHR = 0x1061,
         /// <summary> </summary>
         CL_DEVICE_BUILT_IN_KERNELS_WITH_VERSION = 0x1062,
         /// <summary> </summary>
-        CL_DEVICE_BUILT_IN_KERNELS_WITH_VERSION_KHR = 0x1062,
+        CL_DEVICE_NUMERIC_VERSION = 0x105E,
+        /// <summary> </summary>
+        CL_DEVICE_OPENCL_C_ALL_VERSIONS = 0x1066,
+        /// <summary> </summary>
+        CL_DEVICE_OPENCL_C_FEATURES = 0x106F,
+        /// <summary> </summary>
+        CL_DEVICE_EXTENSIONS_WITH_VERSION = 0x1060,
         /// <summary> </summary>
         CL_DEVICE_ATOMIC_MEMORY_CAPABILITIES = 0x1063,
         /// <summary> </summary>
@@ -759,29 +751,15 @@ namespace Cloo
         /// <summary> </summary>
         CL_DEVICE_NON_UNIFORM_WORK_GROUP_SUPPORT = 0x1065,
         /// <summary> </summary>
-        CL_DEVICE_OPENCL_C_ALL_VERSIONS = 0x1066,
-        /// <summary> </summary>
-        CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE = 0x1067,
-        /// <summary> </summary>
         CL_DEVICE_WORK_GROUP_COLLECTIVE_FUNCTIONS_SUPPORT = 0x1068,
         /// <summary> </summary>
         CL_DEVICE_GENERIC_ADDRESS_SPACE_SUPPORT = 0x1069,
         /// <summary> </summary>
-        CL_DEVICE_UUID_KHR = 0x106A,
-        /// <summary> </summary>
-        CL_DRIVER_UUID_KHR = 0x106B,
-        /// <summary> </summary>
-        CL_DEVICE_LUID_VALID_KHR = 0x106C,
-        /// <summary> </summary>
-        CL_DEVICE_LUID_KHR = 0x106D,
-        /// <summary> </summary>
-        CL_DEVICE_NODE_MASK_KHR = 0x106E,
-        /// <summary> </summary>
-        CL_DEVICE_OPENCL_C_FEATURES = 0x106F,
-        /// <summary> </summary>
         CL_DEVICE_DEVICE_ENQUEUE_CAPABILITIES = 0x1070,
         /// <summary> </summary>
         CL_DEVICE_PIPE_SUPPORT = 0x1071,
+        /// <summary> </summary>
+        CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE = 0x1067,
         /// <summary> </summary>
         CL_DEVICE_LATEST_CONFORMANCE_VERSION_PASSED = 0x1072,
     }
@@ -790,7 +768,7 @@ namespace Cloo
     /// cl_device_fp_config - bitfield
     /// </summary>
     [Flags]
-    public enum ComputeDeviceSingleCapabilities : long
+    public enum cl_device_fp_config : long
     {
         /// <summary> </summary>
         CL_FP_DENORM = 1 << 0,
@@ -817,7 +795,7 @@ namespace Cloo
     /// <summary>
     /// cl_device_mem_cache_type
     /// </summary>
-    public enum ComputeDeviceMemoryCacheType : int
+    public enum cl_device_mem_cache_type : int
     {
         /// <summary> </summary>
         CL_NONE = 0x0,
@@ -830,7 +808,7 @@ namespace Cloo
     /// <summary>
     /// cl_device_local_mem_type
     /// </summary>
-    public enum ComputeDeviceLocalMemoryType : int
+    public enum cl_device_local_mem_type : int
     {
         /// <summary> </summary>
         CL_LOCAL = 0x1,
@@ -842,7 +820,7 @@ namespace Cloo
     /// cl_device_exec_capabilities - bitfield
     /// </summary>
     [Flags]
-    public enum ComputeDeviceExecutionCapabilities : int
+    public enum cl_device_exec_capabilities : long
     {
         /// <summary> </summary>
         CL_EXEC_KERNEL = 1 << 0,
@@ -854,7 +832,7 @@ namespace Cloo
     /// cl_command_queue_properties - bitfield
     /// </summary>
     [Flags]
-    public enum ComputeCommandQueueFlags : long
+    public enum cl_command_queue_properties : long
     {
         /// <summary> </summary>
         CL_QUEUE_NONE = 0,
@@ -862,28 +840,6 @@ namespace Cloo
         CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE = 1 << 0,
         /// <summary> </summary>
         CL_QUEUE_PROFILING_ENABLE = 1 << 1,
-        /// <summary> </summary>
-        CL_QUEUE_NO_SYNC_OPERATIONS_INTEL = 1 << 29,
-        /// <summary> </summary>
-        CL_QUEUE_THREAD_LOCAL_EXEC_ENABLE_INTEL = 1 << 31
-    }
-
-    /// <summary>
-    /// cl_command_queue_properties - bitfield
-    /// </summary>
-    [Flags]
-    public enum ComputeCommandQueueProperties : long
-    {
-        /// <summary> </summary>
-        CL_QUEUE_NONE = 0,
-        /// <summary> </summary>
-        CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE = 1 << 0,
-        /// <summary> </summary>
-        CL_QUEUE_PROFILING_ENABLE = 1 << 1,
-        /// <summary> </summary>
-        CL_QUEUE_NO_SYNC_OPERATIONS_INTEL = 1 << 29,
-        /// <summary> </summary>
-        CL_QUEUE_THREAD_LOCAL_EXEC_ENABLE_INTEL = 1 << 31,
 
         // OpenCL 2.0
         /// <summary> </summary>
@@ -896,7 +852,7 @@ namespace Cloo
     /// The context info query symbols.
     /// cl_context_info
     /// </summary>
-    public enum ComputeContextInfo : int
+    public enum cl_context_info : int
     {
         /// <summary> </summary>
         CL_CONTEXT_REFERENCE_COUNT = 0x1080,
@@ -904,67 +860,19 @@ namespace Cloo
         CL_CONTEXT_DEVICES = 0x1081,
         /// <summary> </summary>
         CL_CONTEXT_PROPERTIES = 0x1082,
-        /// <summary> </summary>
-        CL_CONTEXT_PLATFORM = 0x1084,
-        /// <summary> </summary>
-        CL_CONTEXT_ADAPTER_D3D9_KHR = 0x2025,
-        /// <summary> </summary>
-        CL_CONTEXT_ADAPTER_D3D9EX_KHR = 0x2026,
-        /// <summary> </summary>
-        CL_CONTEXT_ADAPTER_DXVA_KHR = 0x2027,
-        /// <summary> </summary>
-        CL_CONTEXT_D3D10_DEVICE_KHR = 0x4014,
-        /// <summary> </summary>
-        CL_CONTEXT_D3D11_DEVICE_KHR = 0x401D,
-        /// <summary> </summary>
-        CL_CONTEXT_D3D9_DEVICE_INTEL = 0x4026,
-        /// <summary> </summary>
-        CL_CONTEXT_D3D10_PREFER_SHARED_RESOURCES_KHR = 0x402C,
-        /// <summary> </summary>
-        CL_CONTEXT_D3D11_PREFER_SHARED_RESOURCES_KHR = 0x402D,
-        /// <summary> </summary>
-        CL_CONTEXT_D3D9EX_DEVICE_INTEL = 0x4072,
-        /// <summary> </summary>
-        CL_CONTEXT_DXVA_DEVICE_INTEL = 0x4073,
-        /// <summary> </summary>
-        CL_CONTEXT_VA_API_DISPLAY_INTEL = 0x4097,
 
         // OpenCL 1.1
         /// <summary> </summary>
         CL_CONTEXT_NUM_DEVICES = 0x1083,
-
-        // OpenCL 1.1
-        /// <summary> </summary>
-        CL_CONTEXT_INTEROP_USER_SYNC = 0x1085,
     }
 
     /// <summary>
     /// cl_context_properties
     /// </summary>
-    public enum ComputeContextPropertyName : int
+    public enum cl_context_properties
     {
         /// <summary> </summary>
-        CL_CONTEXT_PLATFORM = ComputeContextInfo.CL_CONTEXT_PLATFORM,
-        /// <summary> </summary>
-        CL_GL_CONTEXT_KHR = 0x2008,
-        /// <summary> </summary>
-        CL_EGL_DISPLAY_KHR = 0x2009,
-        /// <summary> </summary>
-        CL_GLX_DISPLAY_KHR = 0x200A,
-        /// <summary> </summary>
-        CL_WGL_HDC_KHR = 0x200B,
-        /// <summary> </summary>
-        CL_CGL_SHAREGROUP_KHR = 0x200C,
-        /// <summary> </summary>
-        CL_CONTEXT_MEMORY_INITIALIZE_KHR = 0x2030,
-        /// <summary> </summary>
-        CL_CONTEXT_TERMINATE_KHR = 0x2032,
-        /// <summary> </summary>
-        CL_PRINTF_CALLBACK_ARM = 0x40B0,
-        /// <summary> </summary>
-        CL_PRINTF_BUFFERSIZE_ARM = 0x40B1,
-        /// <summary> </summary>
-        CL_CONTEXT_SHOW_DIAGNOSTICS_INTEL = 0x4106,
+        CL_CONTEXT_PLATFORM = 0x1084,
 
         // OpenCL 1.2
         /// <summary> </summary>
@@ -975,7 +883,7 @@ namespace Cloo
     /// cl_device_partition_property
     /// OpenCL 1.2
     /// </summary>
-    public enum ComputeDevicePartitionProperty
+    public enum cl_device_partition_property
     {
         /// <summary> </summary>
         CL_DEVICE_PARTITION_EQUALLY = 0x1086,
@@ -992,7 +900,7 @@ namespace Cloo
     /// OpenCL 1.2
     /// </summary>
     [Flags]
-    public enum ComputeDeviceAffinityDomain
+    public enum cl_device_affinity_domain : long
     {
         /// <summary> </summary>
         CL_DEVICE_AFFINITY_DOMAIN_NUMA = 1 << 0,
@@ -1013,7 +921,7 @@ namespace Cloo
     /// OpenCL 2.0
     /// </summary>
     [Flags]
-    public enum ComputeDeviceSVMCapabilities
+    public enum cl_device_svm_capabilities : long
     {
         /// <summary> </summary>
         CL_DEVICE_SVM_COARSE_GRAIN_BUFFER = 1 << 0,
@@ -1029,7 +937,7 @@ namespace Cloo
     /// The command queue info query symbols.
     /// cl_command_queue_info
     /// </summary>
-    public enum ComputeCommandQueueInfo : int
+    public enum cl_command_queue_info : int
     {
         /// <summary> </summary>
         CL_QUEUE_CONTEXT = 0x1090,
@@ -1057,7 +965,7 @@ namespace Cloo
     /// cl_mem_flags and cl_svm_mem_flags - bitfield
     /// </summary>
     [Flags]
-    public enum ComputeMemoryFlags : long
+    public enum cl_mem_flags : long
     {
         /// <summary> Let the OpenCL choose the default flags. </summary>
         CL_MEM_NONE = 0,
@@ -1073,20 +981,6 @@ namespace Cloo
         CL_MEM_ALLOC_HOST_PTR = 1 << 4,
         /// <summary> </summary>
         CL_MEM_COPY_HOST_PTR = 1 << 5,
-        /// <summary> </summary>
-        CL_MEM_FORCE_HOST_MEMORY_INTEL = 1 << 20,
-        /// <summary> </summary>
-        CL_MEM_NO_ACCESS_INTEL = 1 << 24,
-        /// <summary> </summary>
-        CL_MEM_ACCESS_FLAGS_UNRESTRICTED_INTEL = 1 << 25,
-        /// <summary> </summary>
-        CL_MEM_USE_UNCACHED_CPU_MEMORY_IMG = 1 << 26,
-        /// <summary> </summary>
-        CL_MEM_USE_CACHED_CPU_MEMORY_IMG = 1 << 27,
-        /// <summary> </summary>
-        CL_MEM_USE_GRALLOC_PTR_IMG = 1 << 28,
-        /// <summary> </summary>
-        CL_MEM_EXT_HOST_PTR_QCOM = 1 << 29,
 
         // OpenCL 1.2
         /// <summary> </summary>
@@ -1098,34 +992,7 @@ namespace Cloo
 
         // OpenCL 2.0
         /// <summary> </summary>
-        CL_MEM_SVM_FINE_GRAIN_BUFFER = 1 << 10,
-        /// <summary> </summary>
-        CL_MEM_SVM_ATOMICS = 1 << 11,
-        /// <summary> </summary>
         CL_MEM_KERNEL_READ_AND_WRITE = 1 << 12,
-    }
-
-    /// <summary>
-    /// cl_mem_properties
-    /// </summary>
-    public enum ComputeMemoryProperties : int
-    {
-        /// <summary> </summary>
-        CL_MEM_DEVICE_HANDLE_LIST_KHR = 0x2051,
-        /// <summary> </summary>
-        CL_MEM_DEVICE_HANDLE_LIST_END_KHR = 0,
-        /// <summary> </summary>
-        CL_MEM_ALLOC_FLAGS_IMG = 0x40D7,
-        /// <summary> </summary>
-        CL_MEM_ALLOC_FLAGS_INTEL = 0x4195,
-        /// <summary> </summary>
-        CL_MEM_ALLOC_BUFFER_LOCATION_INTEL = 0x419E,
-        /// <summary> </summary>
-        CL_MEM_CHANNEL_INTEL = 0x4213,
-        /// <summary> </summary>
-        CL_MEM_LOCALLY_UNCACHED_RESOURCE_INTEL = 0x4218,
-        /// <summary> </summary>
-        CL_MEM_DEVICE_ID_INTEL = 0x4219,
     }
 
     /// <summary>
@@ -1133,8 +1000,9 @@ namespace Cloo
     /// OpenCL 1.2
     /// </summary>
     [Flags]
-    public enum ComputeMemoryMigrationFlags
+    public enum cl_mem_migration_flags : long
     {
+        // OpenCL 1.2
         /// <summary> </summary>
         CL_MIGRATE_MEM_OBJECT_HOST = 1 << 0,
         /// <summary> </summary>
@@ -1144,7 +1012,7 @@ namespace Cloo
     /// <summary>
     /// cl_channel_order
     /// </summary>
-    public enum ComputeImageChannelOrder : int
+    public enum cl_channel_order : int
     {
         /// <summary> </summary>
         CL_R = 0x10B0,
@@ -1209,7 +1077,7 @@ namespace Cloo
     /// <summary>
     /// cl_channel_type
     /// </summary>
-    public enum ComputeImageChannelType : int
+    public enum cl_channel_type : int
     {
         /// <summary> </summary>
         CL_SNORM_INT8 = 0x10D0,
@@ -1257,7 +1125,7 @@ namespace Cloo
     /// <summary>
     /// cl_mem_object_type
     /// </summary>
-    public enum ComputeMemoryType : int
+    public enum cl_mem_object_type : int
     {
         /// <summary> </summary>
         CL_MEM_OBJECT_BUFFER = 0x10F0,
@@ -1285,7 +1153,7 @@ namespace Cloo
     /// The memory info query symbols.
     /// cl_mem_info
     /// </summary>
-    public enum ComputeMemoryInfo : int
+    public enum cl_mem_info : int
     {
         /// <summary> </summary>
         CL_MEM_TYPE = 0x1100,
@@ -1301,22 +1169,6 @@ namespace Cloo
         CL_MEM_REFERENCE_COUNT = 0x1105,
         /// <summary> </summary>
         CL_MEM_CONTEXT = 0x1106,
-        /// <summary> </summary>
-        CL_MEM_DX9_MEDIA_ADAPTER_TYPE_KHR = 0x2028,
-        /// <summary> </summary>
-        CL_MEM_DX9_MEDIA_SURFACE_INFO_KHR = 0x2029,
-        /// <summary> </summary>
-        CL_MEM_D3D10_RESOURCE_KHR = 0x4015,
-        /// <summary> </summary>
-        CL_MEM_D3D11_RESOURCE_KHR = 0x401E,
-        /// <summary> </summary>
-        CL_MEM_DX9_RESOURCE_INTEL = 0x4027,
-        /// <summary> </summary>
-        CL_MEM_DX9_SHARED_HANDLE_INTEL = 0x4074,
-        /// <summary> </summary>
-        CL_MEM_VA_API_MEDIA_SURFACE_INTEL = 0x4098,
-        /// <summary> </summary>
-        CL_MEM_USES_SVM_POINTER_ARM = 0x40B7,
 
         // OpenCL 1.1
         /// <summary> </summary>
@@ -1338,7 +1190,7 @@ namespace Cloo
     /// cl_mem_info
     /// </summary>
     [Flags]
-    public enum ComputeSVMMemoryFlags : long
+    public enum cl_svm_mem_flags : long
     {
         /// <summary> </summary>
         CL_MEM_READ_WRITE = 1 << 0,
@@ -1359,7 +1211,7 @@ namespace Cloo
     /// The image info query symbols.
     /// cl_image_info
     /// </summary>
-    public enum ComputeImageInfo : int
+    public enum cl_image_info : int
     {
         /// <summary> </summary>
         CL_IMAGE_FORMAT = 0x1110,
@@ -1375,21 +1227,12 @@ namespace Cloo
         CL_IMAGE_HEIGHT = 0x1115,
         /// <summary> </summary>
         CL_IMAGE_DEPTH = 0x1116,
-        /// <summary> </summary>
-        CL_IMAGE_DX9_MEDIA_PLANE_KHR = 0x202A,
-        /// <summary> </summary>
-        CL_IMAGE_D3D10_SUBRESOURCE_KHR = 0x4016,
-        /// <summary> </summary>
-        CL_IMAGE_D3D11_SUBRESOURCE_KHR = 0x401F,
-        /// <summary> </summary>
-        CL_IMAGE_DX9_PLANE_INTEL = 0x4075,
-        /// <summary> </summary>
-        CL_IMAGE_VA_API_PLANE_INTEL = 0x4099,
 
         // OpenCL 1.2
         /// <summary> </summary>
         CL_IMAGE_ARRAY_SIZE = 0x1117,
         /// <summary> </summary>
+        [Obsolete("Deprecated in OpenCL 2.0.")]
         CL_IMAGE_BUFFER = 0x1118,
         /// <summary> </summary>
         CL_IMAGE_NUM_MIP_LEVELS = 0x1119,
@@ -1401,8 +1244,9 @@ namespace Cloo
     /// cl_pipe_info
     /// OpenCL 2.0
     /// </summary>
-    public enum ComputePipeInfo
+    public enum cl_pipe_info : int
     {
+        // OpenCL 2.0
         /// <summary> </summary>
         CL_PIPE_PACKET_SIZE = 0x1120,
         /// <summary> </summary>
@@ -1413,11 +1257,10 @@ namespace Cloo
         CL_PIPE_PROPERTIES = 0x1122,
     }
 
-
     /// <summary>
     /// cl_addressing_mode
     /// </summary>
-    public enum ComputeImageAddressing : int
+    public enum cl_addressing_mode : int
     {
         /// <summary> </summary>
         CL_ADDRESS_NONE = 0x1130,
@@ -1436,7 +1279,7 @@ namespace Cloo
     /// <summary>
     /// cl_filter_mode
     /// </summary>
-    public enum ComputeImageFiltering : int
+    public enum cl_filter_mode : int
     {
         /// <summary> </summary>
         CL_FILTER_NEAREST = 0x1140,
@@ -1448,7 +1291,7 @@ namespace Cloo
     /// The sampler info query symbols.
     /// cl_sampler_info
     /// </summary>
-    public enum ComputeSamplerInfo : int
+    public enum cl_sampler_info : int
     {
         /// <summary> </summary>
         CL_SAMPLER_REFERENCE_COUNT = 0x1150,
@@ -1461,14 +1304,6 @@ namespace Cloo
         /// <summary> </summary>
         CL_SAMPLER_FILTER_MODE = 0x1154,
 
-        // OpenCL 2.0
-        /// <summary> </summary>
-        CL_SAMPLER_MIP_FILTER_MODE = 0x1155,
-        /// <summary> </summary>
-        CL_SAMPLER_LOD_MIN = 0x1156,
-        /// <summary> </summary>
-        CL_SAMPLER_LOD_MAX = 0x1157,
-
         // OpenCL 3.0
         /// <summary> </summary>
         CL_SAMPLER_PROPERTIES = 0x1158,
@@ -1478,7 +1313,7 @@ namespace Cloo
     /// cl_map_flags - bitfield
     /// </summary>
     [Flags]
-    public enum ComputeMemoryMappingFlags : long
+    public enum cl_map_flags : long
     {
         /// <summary> </summary>
         CL_MAP_READ = 1 << 0,
@@ -1495,7 +1330,7 @@ namespace Cloo
     /// The program info query symbols.
     /// cl_program_info
     /// </summary>
-    public enum ComputeProgramInfo : int
+    public enum cl_program_info : int
     {
         /// <summary> </summary>
         CL_PROGRAM_REFERENCE_COUNT = 0x1160,
@@ -1521,13 +1356,13 @@ namespace Cloo
         // OpenCL 2.1
         /// <summary> </summary>
         CL_PROGRAM_IL = 0x1169,
-        /// <summary> </summary>
-        CL_PROGRAM_IL_KHR = 0x1169,
 
         // OpenCL 2.2
         /// <summary> </summary>
+        [Obsolete("Deprecated in OpenCL 3.0.")]
         CL_PROGRAM_SCOPE_GLOBAL_CTORS_PRESENT = 0x116A,
         /// <summary> </summary>
+        [Obsolete("Deprecated in OpenCL 3.0.")]
         CL_PROGRAM_SCOPE_GLOBAL_DTORS_PRESENT = 0x116B,
     }
 
@@ -1535,7 +1370,7 @@ namespace Cloo
     /// The program build info query symbols.
     /// cl_program_build_info
     /// </summary>
-    public enum ComputeProgramBuildInfo : int
+    public enum cl_program_build_info : int
     {
         /// <summary> </summary>
         CL_PROGRAM_BUILD_STATUS = 0x1181,
@@ -1557,7 +1392,7 @@ namespace Cloo
     /// cl_program_binary_type
     /// OpenCL 1.2
     /// </summary>
-    public enum ComputeProgramBinaryType
+    public enum cl_program_binary_type : int
     {
         /// <summary> </summary>
         CL_PROGRAM_BINARY_TYPE_NONE = 0x0,
@@ -1572,7 +1407,7 @@ namespace Cloo
     /// <summary>
     /// cl_build_status
     /// </summary>
-    public enum ComputeProgramBuildStatus : int
+    public enum cl_build_status : int
     {
         /// <summary> </summary>
         CL_BUILD_SUCCESS = 0,
@@ -1588,7 +1423,7 @@ namespace Cloo
     /// The kernel info query symbols.
     /// cl_kernel_info
     /// </summary>
-    public enum ComputeKernelInfo : int
+    public enum cl_kernel_info : int
     {
         /// <summary> </summary>
         CL_KERNEL_FUNCTION_NAME = 0x1190,
@@ -1600,8 +1435,6 @@ namespace Cloo
         CL_KERNEL_CONTEXT = 0x1193,
         /// <summary> </summary>
         CL_KERNEL_PROGRAM = 0x1194,
-        /// <summary> </summary>
-        CL_KERNEL_MAX_WARP_COUNT_ARM = 0x41E9,
 
         // OpenCL 1.2
         /// <summary> </summary>
@@ -1612,8 +1445,9 @@ namespace Cloo
     /// cl_kernel_arg_info
     /// OpenCL 1.2
     /// </summary>
-    public enum ComputeKernelArgInfo
+    public enum cl_kernel_arg_info : int
     {
+        // OpenCL 1.2
         /// <summary> </summary>
         CL_KERNEL_ARG_ADDRESS_QUALIFIER = 0x1196,
         /// <summary> </summary>
@@ -1630,7 +1464,7 @@ namespace Cloo
     /// cl_kernel_arg_address_qualifier
     /// OpenCL 1.2
     /// </summary>
-    public enum ComputeKernelArgAddressQualifier
+    public enum cl_kernel_arg_address_qualifier : int
     {
         /// <summary> </summary>
         CL_KERNEL_ARG_ADDRESS_GLOBAL = 0x119B,
@@ -1646,7 +1480,7 @@ namespace Cloo
     /// cl_kernel_arg_access_qualifier
     /// OpenCL 1.2
     /// </summary>
-    public enum ComputeKernelArgAccessQualifier
+    public enum cl_kernel_arg_access_qualifier : int
     {
         /// <summary> </summary>
         CL_KERNEL_ARG_ACCESS_READ_ONLY = 0x11A0,
@@ -1659,11 +1493,11 @@ namespace Cloo
     }
 
     /// <summary>
-    /// cl_kernel_arg_type_qualifier
+    /// cl_kernel_arg_type_qualifier - bitfield
     /// OpenCL 1.2
     /// </summary>
     [Flags]
-    public enum ComputeKernelArgTypeQualifier
+    public enum cl_kernel_arg_type_qualifier : long
     {
         /// <summary> </summary>
         CL_KERNEL_ARG_TYPE_NONE = 0,
@@ -1683,7 +1517,7 @@ namespace Cloo
     /// The kernel work-group info query symbols.
     /// cl_kernel_work_group_info
     /// </summary>
-    public enum ComputeKernelWorkGroupInfo : int
+    public enum cl_kernel_work_group_info : int
     {
         /// <summary> </summary>
         CL_KERNEL_WORK_GROUP_SIZE = 0x11B0,
@@ -1695,8 +1529,6 @@ namespace Cloo
         CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE = 0x11B3,
         /// <summary> </summary>
         CL_KERNEL_PRIVATE_MEM_SIZE = 0x11B4,
-        /// <summary> </summary>
-        CL_KERNEL_SPILL_MEM_SIZE_INTEL = 0x4109,
 
         // OpenCL 1.2
         /// <summary> </summary>
@@ -1707,8 +1539,9 @@ namespace Cloo
     /// cl_kernel_sub_group_info
     /// OpenCL 2.1
     /// </summary>
-    public enum ComputeKernelSubGroupInfo
+    public enum cl_kernel_sub_group_info : int
     {
+        // OpenCL 2.1
         /// <summary> </summary>
         CL_KERNEL_MAX_SUB_GROUP_SIZE_FOR_NDRANGE = 0x2033,
         /// <summary> </summary>
@@ -1725,8 +1558,9 @@ namespace Cloo
     /// cl_kernel_exec_info
     /// OpenCL 2.0
     /// </summary>
-    public enum ComputeKernelExecInfo
+    public enum cl_kernel_exec_info : int
     {
+        // OpenCL 2.0
         /// <summary> </summary>
         CL_KERNEL_EXEC_INFO_SVM_PTRS = 0x11B6,
         /// <summary> </summary>
@@ -1737,18 +1571,16 @@ namespace Cloo
     /// The event info query symbols.
     /// cl_event_info
     /// </summary>
-    public enum ComputeEventInfo : int
+    public enum cl_event_info : int
     {
         /// <summary> </summary>
         CL_EVENT_COMMAND_QUEUE = 0x11D0,
         /// <summary> </summary>
         CL_EVENT_COMMAND_TYPE = 0x11D1,
         /// <summary> </summary>
-        CL_EVENT_REFERENCE_COUNT = 0x11D2,
-        /// <summary> </summary>
         CL_EVENT_COMMAND_EXECUTION_STATUS = 0x11D3,
         /// <summary> </summary>
-        CL_EVENT_COMMAND_TERMINATION_REASON_ARM = 0x41ED,
+        CL_EVENT_REFERENCE_COUNT = 0x11D2,
 
         // OpenCL 1.1
         /// <summary> </summary>
@@ -1758,7 +1590,7 @@ namespace Cloo
     /// <summary>
     /// cl_command_type
     /// </summary>
-    public enum ComputeCommandType : int
+    public enum cl_command_type : int
     {
         /// <summary> </summary>
         CL_COMMAND_NDRANGE_KERNEL = 0x11F0,
@@ -1893,7 +1725,7 @@ namespace Cloo
     /// <summary>
     /// command execution status
     /// </summary>
-    public enum ComputeCommandExecutionStatus : int
+    public enum cl_command_execution_status : int
     {
         /// <summary> </summary>
         CL_COMPLETE = 0x0,
@@ -1908,7 +1740,7 @@ namespace Cloo
     /// <summary>
     /// cl_buffer_create_type
     /// </summary>
-    public enum ComputeBufferCreateType : int
+    public enum cl_buffer_create_type : int
     {
         // OpenCL 1.1
         /// <summary> </summary>
@@ -1919,7 +1751,7 @@ namespace Cloo
     /// The command profiling info query symbols.
     /// cl_profiling_info
     /// </summary>
-    public enum ComputeCommandProfilingInfo : int
+    public enum cl_profiling_info : int
     {
         /// <summary> </summary>
         CL_PROFILING_COMMAND_QUEUED = 0x1280,
@@ -1940,7 +1772,7 @@ namespace Cloo
     /// OpenCL 3.0
     /// </summary>
     [Flags]
-    public enum ComputeDeviceAtomicCapabilities
+    public enum cl_device_atomic_capabilities : long
     {
         /// <summary> </summary>
         CL_DEVICE_ATOMIC_ORDER_RELAXED = 1 << 0,
@@ -1963,7 +1795,7 @@ namespace Cloo
     /// OpenCL 3.0
     /// </summary>
     [Flags]
-    public enum ComputeDeviceEnqueueCapabilities
+    public enum cl_device_device_enqueue_capabilities : long
     {
         /// <summary> </summary>
         CL_DEVICE_QUEUE_SUPPORTED = 1 << 0,
@@ -1977,7 +1809,7 @@ namespace Cloo
     /// <summary>
     /// cl_gl_object_type
     /// </summary>
-    public enum ComputeGLObjectType : int
+    public enum cl_gl_object_type : int
     {
         /// <summary> </summary>
         CL_GL_OBJECT_BUFFER = 0x2000,
@@ -2004,7 +1836,7 @@ namespace Cloo
     /// The shared CL/GL image/texture info query symbols.
     /// cl_gl_texture_info
     /// </summary>
-    public enum ComputeGLTextureInfo : int
+    public enum cl_gl_texture_info : int
     {
         /// <summary> </summary>
         CL_GL_TEXTURE_TARGET = 0x2004,
@@ -2018,7 +1850,7 @@ namespace Cloo
     /// The shared CL/GL context info query symbols.
     /// cl_gl_context_info
     /// </summary>
-    public enum ComputeGLContextInfo : int
+    public enum cl_gl_context_info : int
     {
         /// <summary> </summary>
         CL_CURRENT_DEVICE_FOR_GL_CONTEXT_KHR = 0x2006,
@@ -2027,10 +1859,10 @@ namespace Cloo
     }
 
     /// <summary>
-    /// 
+    /// cl_device_partition_property_ext
     /// </summary>
     [Flags]
-    public enum cl_device_partition_property_ext
+    public enum cl_device_partition_property_ext : long
     {
         /// <summary> </summary>
         CL_DEVICE_PARTITION_EQUALLY_EXT = 0x4050,
@@ -2063,10 +1895,10 @@ namespace Cloo
     }
 
     /// <summary>
-    /// 
+    /// cl_mem_migration_flags_ext - bitfield
     /// </summary>
     [Flags]
-    public enum cl_mem_migration_flags_ext
+    public enum cl_mem_migration_flags_ext : long
     {
         /// <summary> </summary>
         CL_MIGRATE_MEM_NONE = 0,

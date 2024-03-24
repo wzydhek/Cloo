@@ -49,19 +49,19 @@ namespace Cloo
         /// <param name="flags"> A bit-field that is used to specify allocation and usage information about the <see cref="ComputeBuffer{T}"/>. </param>
         /// <param name="offset"> The index of the element of <paramref name="buffer"/>, where the <see cref="ComputeSubBuffer{T}"/> starts. </param>
         /// <param name="count"> The number of elements of <paramref name="buffer"/> to include in the <see cref="ComputeSubBuffer{T}"/>. </param>
-        public ComputeSubBuffer(ComputeBuffer<T> buffer, ComputeMemoryFlags flags, long offset, long count)
+        public ComputeSubBuffer(ComputeBuffer<T> buffer, cl_mem_flags flags, long offset, long count)
             : base(buffer.Context, flags)
         {
             var sizeofT = ComputeTools.SizeOf<T>();
 
             SysIntX2 region = new SysIntX2(offset * sizeofT, count * sizeofT);
-            Handle = CL11.CreateSubBuffer(buffer.Handle, flags, ComputeBufferCreateType.CL_BUFFER_CREATE_TYPE_REGION, ref region, out var error);
+            Handle = CL11.CreateSubBuffer(buffer.Handle, flags, cl_buffer_create_type.CL_BUFFER_CREATE_TYPE_REGION, ref region, out var error);
             ComputeException.ThrowOnError(error);
 
             Init();
         }
 
-        internal ComputeSubBuffer(ComputeContext context, CLMemoryHandle handle, ComputeMemoryFlags flags)
+        internal ComputeSubBuffer(ComputeContext context, CLMemoryHandle handle, cl_mem_flags flags)
             : base(context, flags)
         {
             Handle = handle;

@@ -107,9 +107,9 @@ namespace Cloo
         /// Creates a new <see cref="ComputeCommandQueue"/>.
         /// </summary>
         /// <param name="context"> A <see cref="ComputeContext"/>. </param>
-        /// <param name="device"> A <see cref="ComputeDevice"/> associated with the <paramref name="context"/>. It can either be one of <see cref="ComputeContext.Devices"/> or have the same <see cref="ComputeDeviceTypes"/> as the <paramref name="device"/> specified when the <paramref name="context"/> is created. </param>
+        /// <param name="device"> A <see cref="ComputeDevice"/> associated with the <paramref name="context"/>. It can either be one of <see cref="ComputeContext.Devices"/> or have the same <see cref="cl_device_type"/> as the <paramref name="device"/> specified when the <paramref name="context"/> is created. </param>
         /// <param name="properties"> The properties for the <see cref="ComputeCommandQueue"/>. </param>
-        public ComputeCommandQueue(ComputeContext context, ComputeDevice device, ComputeCommandQueueFlags properties)
+        public ComputeCommandQueue(ComputeContext context, ComputeDevice device, cl_command_queue_properties properties)
         {
             Handle = CL12.CreateCommandQueue(context.Handle, device.Handle, properties, out var error);
             ComputeException.ThrowOnError(error);
@@ -119,8 +119,8 @@ namespace Cloo
             _device = device;
             _context = context;
             
-            _outOfOrderExec = (properties & ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE;
-            _profiling = (properties & ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE;
+            _outOfOrderExec = (properties & cl_command_queue_properties.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE) == cl_command_queue_properties.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE;
+            _profiling = (properties & cl_command_queue_properties.CL_QUEUE_PROFILING_ENABLE) == cl_command_queue_properties.CL_QUEUE_PROFILING_ENABLE;
             
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
         }
@@ -139,9 +139,9 @@ namespace Cloo
 
             SetID(Handle.Value);
 
-            var contextHandle = GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, CLContextHandle>(Handle, ComputeCommandQueueInfo.CL_QUEUE_CONTEXT, CL12.GetCommandQueueInfo);
-            var deviceHandle = GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, CLDeviceHandle>(Handle, ComputeCommandQueueInfo.CL_QUEUE_DEVICE, CL12.GetCommandQueueInfo);
-            var properties = (ComputeCommandQueueFlags)GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, long>(Handle, ComputeCommandQueueInfo.CL_QUEUE_PROPERTIES, CL12.GetCommandQueueInfo);
+            var contextHandle = GetInfo<CLCommandQueueHandle, cl_command_queue_info, CLContextHandle>(Handle, cl_command_queue_info.CL_QUEUE_CONTEXT, CL12.GetCommandQueueInfo);
+            var deviceHandle = GetInfo<CLCommandQueueHandle, cl_command_queue_info, CLDeviceHandle>(Handle, cl_command_queue_info.CL_QUEUE_DEVICE, CL12.GetCommandQueueInfo);
+            var properties = (cl_command_queue_properties)GetInfo<CLCommandQueueHandle, cl_command_queue_info, long>(Handle, cl_command_queue_info.CL_QUEUE_PROPERTIES, CL12.GetCommandQueueInfo);
 
             if (context.Handle.Value != contextHandle.Value) throw new ArgumentException("Context does not belong to queue", nameof(context));
 
@@ -156,8 +156,8 @@ namespace Cloo
                 }
             }
             
-            _outOfOrderExec = (properties & ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE;
-            _profiling = (properties & ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE;
+            _outOfOrderExec = (properties & cl_command_queue_properties.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE) == cl_command_queue_properties.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE;
+            _profiling = (properties & cl_command_queue_properties.CL_QUEUE_PROFILING_ENABLE) == cl_command_queue_properties.CL_QUEUE_PROFILING_ENABLE;
             
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
         }
@@ -442,7 +442,7 @@ namespace Cloo
         /// <param name="region"> The region of elements to map. </param>
         /// <param name="events"> A collection of events that need to complete before this particular command can be executed. If <paramref name="events"/> is not <c>null</c> or read-only a new <see cref="ComputeEvent"/> identifying this command is created and attached to the end of the collection. </param>
         /// <remarks> If <paramref name="blocking"/> is <c>true</c> this method will not return until the command completes. If <paramref name="blocking"/> is <c>false</c> this method will return immediately after the command is enqueued. </remarks>
-        public IntPtr Map<T>(ComputeBufferBase<T> buffer, bool blocking, ComputeMemoryMappingFlags flags, long offset, long region, ICollection<ComputeEventBase> events) where T : struct
+        public IntPtr Map<T>(ComputeBufferBase<T> buffer, bool blocking, cl_map_flags flags, long offset, long region, ICollection<ComputeEventBase> events) where T : struct
         {
             int sizeofT = ComputeTools.SizeOf<T>();
 
@@ -469,7 +469,7 @@ namespace Cloo
         /// <param name="region"> The region of elements to map. </param>
         /// <param name="events"> A collection of events that need to complete before this particular command can be executed. If <paramref name="events"/> is not <c>null</c> or read-only a new <see cref="ComputeEvent"/> identifying this command is created and attached to the end of the collection. </param>
         /// <remarks> If <paramref name="blocking"/> is <c>true</c> this method will not return until the command completes. If <paramref name="blocking"/> is <c>false</c> this method will return immediately after the command is enqueued. </remarks>
-        public IntPtr Map(ComputeImage image, bool blocking, ComputeMemoryMappingFlags flags, SysIntX3 offset, SysIntX3 region, ICollection<ComputeEventBase> events)
+        public IntPtr Map(ComputeImage image, bool blocking, cl_map_flags flags, SysIntX3 offset, SysIntX3 region, ICollection<ComputeEventBase> events)
         {
             CLEventHandle[] eventHandles = ComputeTools.ExtractHandles(events, out var eventWaitListSize);
             bool eventsWritable = events != null && !events.IsReadOnly;

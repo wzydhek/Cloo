@@ -164,13 +164,13 @@ namespace Cloo
             Handle = handle;
             SetID(Handle.Value);
 
-            string extensionString = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_EXTENSIONS, CL12.GetPlatformInfo);
+            string extensionString = GetStringInfo(Handle, cl_platform_info.CL_PLATFORM_EXTENSIONS, CL12.GetPlatformInfo);
             _extensions = new ReadOnlyCollection<string>(extensionString.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
-            _name = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_NAME, CL12.GetPlatformInfo);
-            _profile = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_PROFILE, CL12.GetPlatformInfo);
-            _vendor = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_VENDOR, CL12.GetPlatformInfo);
-            _version = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_VERSION, CL12.GetPlatformInfo);
+            _name = GetStringInfo(Handle, cl_platform_info.CL_PLATFORM_NAME, CL12.GetPlatformInfo);
+            _profile = GetStringInfo(Handle, cl_platform_info.CL_PLATFORM_PROFILE, CL12.GetPlatformInfo);
+            _vendor = GetStringInfo(Handle, cl_platform_info.CL_PLATFORM_VENDOR, CL12.GetPlatformInfo);
+            _version = GetStringInfo(Handle, cl_platform_info.CL_PLATFORM_VERSION, CL12.GetPlatformInfo);
             QueryDevices();
         }
 
@@ -227,11 +227,11 @@ namespace Cloo
         /// <remarks> This method resets the <c>ComputePlatform.Devices</c>. This is useful if one or more of them become unavailable (<c>ComputeDevice.Available</c> is <c>false</c>) after a <see cref="ComputeContext"/> and <see cref="ComputeCommandQueue"/>s that use the <see cref="ComputeDevice"/> have been created and commands have been queued to them. Further calls will trigger an <c>OutOfResourcesComputeException</c> until this method is executed. You will also need to recreate any <see cref="ComputeResource"/> that was created on the no longer available <see cref="ComputeDevice"/>. </remarks>
         public ReadOnlyCollection<ComputeDevice> QueryDevices()
         {
-            ComputeErrorCode error = CL12.GetDeviceIDs(Handle, ComputeDeviceTypes.All, 0, null, out var handlesLength);
+            ComputeErrorCode error = CL12.GetDeviceIDs(Handle, cl_device_type.CL_DEVICE_TYPE_ALL, 0, null, out var handlesLength);
             ComputeException.ThrowOnError(error);
 
             CLDeviceHandle[] handles = new CLDeviceHandle[handlesLength];
-            error = CL12.GetDeviceIDs(Handle, ComputeDeviceTypes.All, handlesLength, handles, out handlesLength);
+            error = CL12.GetDeviceIDs(Handle, cl_device_type.CL_DEVICE_TYPE_ALL, handlesLength, handles, out handlesLength);
             ComputeException.ThrowOnError(error);
 
             ComputeDevice[] devices = new ComputeDevice[handlesLength];

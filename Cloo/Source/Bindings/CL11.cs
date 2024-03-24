@@ -49,8 +49,8 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateSubBuffer")]
         public static extern CLMemoryHandle CreateSubBuffer(
             CLMemoryHandle buffer,
-            ComputeMemoryFlags flags,
-            ComputeBufferCreateType buffer_create_type,
+            cl_mem_flags flags,
+            cl_buffer_create_type buffer_create_type,
             ref SysIntX2 buffer_create_info,
             out ComputeErrorCode errcode_ret);
 
@@ -128,7 +128,7 @@ namespace Cloo.Bindings
         public static extern ComputeErrorCode SetEventCallback(
             CLEventHandle @event,
             int command_exec_callback_type,
-            ComputeEventCallback pfn_notify,
+            cl_event_callback pfn_notify,
             IntPtr user_data);
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clSetMemObjectDestructorCallback")]
         public static extern ComputeErrorCode SetMemObjectDestructorCallback(
             CLMemoryHandle memobj,
-            ComputeMemoryDestructorNotifer pfn_notify,
+            cl_memory_destroyer_callback pfn_notify,
             IntPtr user_data);
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clSetUserEventStatus")]
         public static extern ComputeErrorCode SetUserEventStatus(
             CLEventHandle @event,
-            Int32 execution_status);
+            int execution_status);
 
 
         #region Deprecated functions
@@ -157,9 +157,9 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.1.")]
         public new static ComputeErrorCode SetCommandQueueProperty(
             CLCommandQueueHandle command_queue,
-            ComputeCommandQueueFlags properties,
+            cl_command_queue_properties properties,
             [MarshalAs(UnmanagedType.Bool)] bool enable,
-            out ComputeCommandQueueFlags old_properties)
+            out cl_command_queue_properties old_properties)
         {
             Debug.WriteLine("WARNING! clSetCommandQueueProperty has been deprecated in OpenCL 1.1.");
             return CL10.SetCommandQueueProperty(command_queue, properties, enable, out old_properties);
@@ -174,7 +174,7 @@ namespace Cloo.Bindings
     /// <param name="memobj"> The memory object being deleted. When the user callback is called, this memory object is not longer valid. <paramref name="memobj"/> is only provided for reference purposes. </param>
     /// <param name="user_data"> A pointer to user supplied data. </param>
     /// /// <remarks> This callback function may be called asynchronously by the OpenCL implementation. It is the application's responsibility to ensure that the callback function is thread-safe. </remarks>
-    public delegate void ComputeMemoryDestructorNotifer(CLMemoryHandle memobj, IntPtr user_data);
+    public delegate void cl_memory_destroyer_callback(CLMemoryHandle memobj, IntPtr user_data);
 
     /// <summary>
     /// The event callback function that can be registered by the application.
@@ -183,5 +183,5 @@ namespace Cloo.Bindings
     /// <param name="cmdExecStatusOrErr"> Represents the execution status of the command for which this callback function is invoked. If the callback is called as the result of the command associated with the event being abnormally terminated, an appropriate error code for the error that caused the termination will be passed to <paramref name="cmdExecStatusOrErr"/> instead. </param>
     /// <param name="userData"> A pointer to user supplied data. </param>
     /// /// <remarks> This callback function may be called asynchronously by the OpenCL implementation. It is the application's responsibility to ensure that the callback function is thread-safe. </remarks>
-    public delegate void ComputeEventCallback(CLEventHandle eventHandle, int cmdExecStatusOrErr, IntPtr userData);
+    public delegate void cl_event_callback(CLEventHandle eventHandle, int cmdExecStatusOrErr, IntPtr userData);
 }

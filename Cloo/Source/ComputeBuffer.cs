@@ -54,7 +54,7 @@ namespace Cloo
         /// <param name="context"> A <see cref="ComputeContext"/> used to create the <see cref="ComputeBuffer{T}"/>. </param>
         /// <param name="flags"> A bit-field that is used to specify allocation and usage information about the <see cref="ComputeBuffer{T}"/>. </param>
         /// <param name="count"> The number of elements of the <see cref="ComputeBuffer{T}"/>. </param>
-        public ComputeBuffer(ComputeContext context, ComputeMemoryFlags flags, long count)
+        public ComputeBuffer(ComputeContext context, cl_mem_flags flags, long count)
             : this(context, flags, count, IntPtr.Zero)
         { }
 
@@ -65,7 +65,7 @@ namespace Cloo
         /// <param name="flags"> A bit-field that is used to specify allocation and usage information about the <see cref="ComputeBuffer{T}"/>. </param>
         /// <param name="count"> The number of elements of the <see cref="ComputeBuffer{T}"/>. </param>
         /// <param name="dataPtr"> A pointer to the data for the <see cref="ComputeBuffer{T}"/>. </param>
-        public ComputeBuffer(ComputeContext context, ComputeMemoryFlags flags, long count, IntPtr dataPtr)
+        public ComputeBuffer(ComputeContext context, cl_mem_flags flags, long count, IntPtr dataPtr)
             : base(context, flags)
         {
             var size = ComputeTools.SizeOf<T>()*count;
@@ -82,7 +82,7 @@ namespace Cloo
         /// <param name="flags"> A bit-field that is used to specify allocation and usage information about the <see cref="ComputeBuffer{T}"/>. </param>
         /// <param name="data"> The data for the <see cref="ComputeBuffer{T}"/>. </param>
         /// <remarks> Note, that <paramref name="data"/> cannot be an "immediate" parameter, i.e.: <c>new T[100]</c>, because it could be quickly collected by the GC causing Cloo to send and invalid reference to OpenCL. </remarks>
-        public ComputeBuffer(ComputeContext context, ComputeMemoryFlags flags, T[] data)
+        public ComputeBuffer(ComputeContext context, cl_mem_flags flags, T[] data)
             : base(context, flags)
         {
             var size = ComputeTools.SizeOf<T>()*data.Length;
@@ -101,21 +101,21 @@ namespace Cloo
             Init(size, data.Length);
         }
 
-        private ComputeBuffer(CLMemoryHandle handle, ComputeContext context, ComputeMemoryFlags flags)
+        private ComputeBuffer(CLMemoryHandle handle, ComputeContext context, cl_mem_flags flags)
             : base(context, flags)
         {
             Handle = handle;
             Init();
         }
 
-        private ComputeBuffer(CLMemoryHandle handle, ComputeContext context, ComputeMemoryFlags flags, long size)
+        private ComputeBuffer(CLMemoryHandle handle, ComputeContext context, cl_mem_flags flags, long size)
             : base(context, flags)
         {
             Handle = handle;
             Init(size);
         }
 
-        private ComputeBuffer(CLMemoryHandle handle, ComputeContext context, ComputeMemoryFlags flags, long size, long count)
+        private ComputeBuffer(CLMemoryHandle handle, ComputeContext context, cl_mem_flags flags, long size, long count)
             : base(context, flags)
         {
             Handle = handle;
@@ -131,10 +131,10 @@ namespace Cloo
         /// </summary>
         /// <typeparam name="TDataType"> The type of the elements of the <see cref="ComputeBuffer{T}"/>. <typeparamref name="T"/> should match the type of the elements in the OpenGL buffer. </typeparam>
         /// <param name="context"> A <see cref="ComputeContext"/> with enabled CL/GL sharing. </param>
-        /// <param name="flags"> A bit-field that is used to specify usage information about the <see cref="ComputeBuffer{T}"/>. Only <see cref="ComputeMemoryFlags.CL_MEM_READ_ONLY"/>, <see cref="ComputeMemoryFlags.CL_MEM_WRITE_ONLY"/> and <see cref="ComputeMemoryFlags.CL_MEM_READ_WRITE"/> are allowed. </param>
+        /// <param name="flags"> A bit-field that is used to specify usage information about the <see cref="ComputeBuffer{T}"/>. Only <see cref="cl_mem_flags.CL_MEM_READ_ONLY"/>, <see cref="cl_mem_flags.CL_MEM_WRITE_ONLY"/> and <see cref="cl_mem_flags.CL_MEM_READ_WRITE"/> are allowed. </param>
         /// <param name="bufferId"> The OpenGL buffer object id to use for the creation of the <see cref="ComputeBuffer{T}"/>. </param>
         /// <returns> The created <see cref="ComputeBuffer{T}"/>. </returns>
-        public static ComputeBuffer<TDataType> CreateFromGLBuffer<TDataType>(ComputeContext context, ComputeMemoryFlags flags, int bufferId) where TDataType : struct
+        public static ComputeBuffer<TDataType> CreateFromGLBuffer<TDataType>(ComputeContext context, cl_mem_flags flags, int bufferId) where TDataType : struct
         {
             CLMemoryHandle handle = CL12.CreateFromGLBuffer(context.Handle, flags, bufferId, out var error);
             ComputeException.ThrowOnError(error);
@@ -174,7 +174,7 @@ namespace Cloo
         {
             var memoryHandle = new CLMemoryHandle(handle);
 
-            var flags = (ComputeMemoryFlags)GetInfo<CLMemoryHandle, ComputeMemoryInfo, long>(memoryHandle, ComputeMemoryInfo.CL_MEM_FLAGS, CL12.GetMemObjectInfo);
+            var flags = (cl_mem_flags)GetInfo<CLMemoryHandle, cl_mem_info, long>(memoryHandle, cl_mem_info.CL_MEM_FLAGS, CL12.GetMemObjectInfo);
 
             return new ComputeBuffer<T>(memoryHandle, context, flags);
         }

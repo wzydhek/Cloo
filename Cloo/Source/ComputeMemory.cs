@@ -49,7 +49,7 @@ namespace Cloo
         private readonly ComputeContext _context;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ComputeMemoryFlags _flags;
+        private readonly cl_mem_flags _flags;
 
         private CLMemoryHandle _handle;
 
@@ -73,10 +73,10 @@ namespace Cloo
         public ComputeContext Context => _context;
 
         /// <summary>
-        /// Gets the <see cref="ComputeMemoryFlags"/> of the <see cref="ComputeMemory"/>.
+        /// Gets the <see cref="cl_mem_flags"/> of the <see cref="ComputeMemory"/>.
         /// </summary>
-        /// <value> The <see cref="ComputeMemoryFlags"/> of the <see cref="ComputeMemory"/>. </value>
-        public ComputeMemoryFlags Flags => _flags;
+        /// <value> The <see cref="cl_mem_flags"/> of the <see cref="ComputeMemory"/>. </value>
+        public cl_mem_flags Flags => _flags;
 
         /// <summary>
         /// Gets or sets (protected) the size in bytes of the <see cref="ComputeMemory"/>.
@@ -93,7 +93,7 @@ namespace Cloo
         /// </summary>
         /// <param name="context"></param>
         /// <param name="flags"></param>
-        protected ComputeMemory(ComputeContext context, ComputeMemoryFlags flags)
+        protected ComputeMemory(ComputeContext context, cl_mem_flags flags)
         {
             _context = context;
             _flags = flags;

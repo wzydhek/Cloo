@@ -45,26 +45,26 @@ namespace Cloo
         #region Fields
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ComputeImageChannelOrder channelOrder;
+        private readonly cl_channel_order channelOrder;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ComputeImageChannelType channelType;
+        private readonly cl_channel_type channelType;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets the <see cref="ComputeImageChannelOrder"/> of the <see cref="ComputeImage"/>.
+        /// Gets the <see cref="cl_channel_order"/> of the <see cref="ComputeImage"/>.
         /// </summary>
-        /// <value> The <see cref="ComputeImageChannelOrder"/> of the <see cref="ComputeImage"/>. </value>
-        public ComputeImageChannelOrder ChannelOrder => channelOrder;
+        /// <value> The <see cref="cl_channel_order"/> of the <see cref="ComputeImage"/>. </value>
+        public cl_channel_order ChannelOrder => channelOrder;
 
         /// <summary>
-        /// Gets the <see cref="ComputeImageChannelType"/> of the <see cref="ComputeImage"/>.
+        /// Gets the <see cref="cl_channel_type"/> of the <see cref="ComputeImage"/>.
         /// </summary>
-        /// <value> The <see cref="ComputeImageChannelType"/> of the <see cref="ComputeImage"/>. </value>
-        public ComputeImageChannelType ChannelType => channelType;
+        /// <value> The <see cref="cl_channel_type"/> of the <see cref="ComputeImage"/>. </value>
+        public cl_channel_type ChannelType => channelType;
 
         #endregion
 
@@ -75,7 +75,7 @@ namespace Cloo
         /// </summary>
         /// <param name="channelOrder"> The number of channels and the channel layout i.e. the memory layout in which channels are stored in the <see cref="ComputeImage"/>. </param>
         /// <param name="channelType"> The type of the channel data. The number of bits per element determined by the <paramref name="channelType"/> and <paramref name="channelOrder"/> must be a power of two. </param>
-        public ComputeImageFormat(ComputeImageChannelOrder channelOrder, ComputeImageChannelType channelType)
+        public ComputeImageFormat(cl_channel_order channelOrder, cl_channel_type channelType)
         {
             this.channelOrder = channelOrder;
             this.channelType = channelType;
