@@ -58,7 +58,7 @@ namespace Cloo
 
         internal ComputeEvent(CLEventHandle handle, ComputeCommandQueue queue) : this (handle, queue, 0)
         {
-            Type = (ComputeCommandType)GetInfo<CLEventHandle, ComputeEventInfo, int>(Handle, ComputeEventInfo.CommandType, CL12.GetEventInfo);
+            Type = (ComputeCommandType)GetInfo<CLEventHandle, ComputeEventInfo, int>(Handle, ComputeEventInfo.CL_EVENT_COMMAND_TYPE, CL12.GetEventInfo);
         }
 
         internal ComputeEvent(CLEventHandle handle, ComputeCommandQueue queue, ComputeCommandType type)

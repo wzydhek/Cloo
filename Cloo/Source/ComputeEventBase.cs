@@ -74,7 +74,7 @@ namespace Cloo
                 {
                     if (!_notifierHooked) HookNotifier();
 
-                    if (_status != null && _status.Status != ComputeCommandExecutionStatus.Complete)
+                    if (_status != null && _status.Status != ComputeCommandExecutionStatus.CL_COMPLETE)
                         value.Invoke(this, _status);
 
                     AbortedInternal += value;
@@ -95,7 +95,7 @@ namespace Cloo
                 {
                     if (!_notifierHooked) HookNotifier();
                     
-                    if (_status != null && _status.Status == ComputeCommandExecutionStatus.Complete)
+                    if (_status != null && _status.Status == ComputeCommandExecutionStatus.CL_COMPLETE)
                         value.Invoke(this, _status);
 
                     CompletedInternal += value;
@@ -127,31 +127,31 @@ namespace Cloo
         /// Gets the <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command has finished execution.
         /// </summary>
         /// <value> The <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command has finished execution. </value>
-        public ulong FinishTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.Ended, CL12.GetEventProfilingInfo);
+        public ulong FinishTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.CL_PROFILING_COMMAND_END, CL12.GetEventProfilingInfo);
 
         /// <summary>
         /// Gets the <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command is enqueued in the <see cref="ComputeCommandQueue"/> by the host.
         /// </summary>
         /// <value> The <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command is enqueued in the <see cref="ComputeCommandQueue"/> by the host. </value>
-        public ulong EnqueueTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.Queued, CL12.GetEventProfilingInfo);
+        public ulong EnqueueTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.CL_PROFILING_COMMAND_QUEUED, CL12.GetEventProfilingInfo);
 
         /// <summary>
         /// Gets the execution status of the associated command.
         /// </summary>
         /// <value> The execution status of the associated command or a negative value if the execution was abnormally terminated. </value>
-        public ComputeCommandExecutionStatus Status => (ComputeCommandExecutionStatus)GetInfo<CLEventHandle, ComputeEventInfo, int>(Handle, ComputeEventInfo.ExecutionStatus, CL12.GetEventInfo);
+        public ComputeCommandExecutionStatus Status => (ComputeCommandExecutionStatus)GetInfo<CLEventHandle, ComputeEventInfo, int>(Handle, ComputeEventInfo.CL_EVENT_COMMAND_EXECUTION_STATUS, CL12.GetEventInfo);
 
         /// <summary>
         /// Gets the <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command starts execution.
         /// </summary>
         /// <value> The <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command starts execution. </value>
-        public ulong StartTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.Started, CL12.GetEventProfilingInfo);
+        public ulong StartTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.CL_PROFILING_COMMAND_START, CL12.GetEventProfilingInfo);
 
         /// <summary>
         /// Gets the <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command that has been enqueued is submitted by the host to the device.
         /// </summary>
         /// <value> The <see cref="ComputeDevice"/> time counter in nanoseconds when the associated command that has been enqueued is submitted by the host to the device. </value>
-        public ulong SubmitTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.Submitted, CL12.GetEventProfilingInfo);
+        public ulong SubmitTime => GetInfo<CLEventHandle, ComputeCommandProfilingInfo, ulong>(Handle, ComputeCommandProfilingInfo.CL_PROFILING_COMMAND_SUBMIT, CL12.GetEventProfilingInfo);
 
         /// <summary>
         /// Gets the <see cref="ComputeCommandType"/> associated with the event.
@@ -189,7 +189,7 @@ namespace Cloo
             var handle = GCHandle.Alloc(callback);
             var handlePointer = GCHandle.ToIntPtr(handle);
 
-            ComputeErrorCode error = CL11.SetEventCallback(Handle, (int)ComputeCommandExecutionStatus.Complete, callback, handlePointer);
+            ComputeErrorCode error = CL11.SetEventCallback(Handle, (int)ComputeCommandExecutionStatus.CL_COMPLETE, callback, handlePointer);
             ComputeException.ThrowOnError(error);
         }
 
@@ -226,7 +226,7 @@ namespace Cloo
                 _status = new ComputeCommandStatusArgs(this, (ComputeCommandExecutionStatus)cmdExecStatusOrErr);
                 switch (cmdExecStatusOrErr)
                 {
-                    case (int)ComputeCommandExecutionStatus.Complete:
+                    case (int)ComputeCommandExecutionStatus.CL_COMPLETE:
                         OnCompleted(this, _status);
                         break;
                     default:

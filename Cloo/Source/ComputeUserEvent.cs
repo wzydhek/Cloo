@@ -53,7 +53,7 @@ namespace Cloo
             
             SetID(Handle.Value);
 
-            Type = (ComputeCommandType)GetInfo<CLEventHandle, ComputeEventInfo, uint>(Handle, ComputeEventInfo.CommandType, CL12.GetEventInfo);
+            Type = (ComputeCommandType)GetInfo<CLEventHandle, ComputeEventInfo, uint>(Handle, ComputeEventInfo.CL_EVENT_COMMAND_TYPE, CL12.GetEventInfo);
             Context = context;
             //HookNotifier();
 
@@ -78,7 +78,7 @@ namespace Cloo
         /// <summary>
         /// Sets the new status of the <see cref="ComputeUserEvent"/>.
         /// </summary>
-        /// <param name="status"> The new status of the <see cref="ComputeUserEvent"/>. Allowed value is <see cref="ComputeCommandExecutionStatus.Complete"/>. </param>
+        /// <param name="status"> The new status of the <see cref="ComputeUserEvent"/>. Allowed value is <see cref="ComputeCommandExecutionStatus.CL_COMPLETE"/>. </param>
         public void SetStatus(ComputeCommandExecutionStatus status)
         {
             SetStatus((int)status);

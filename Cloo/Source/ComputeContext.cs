@@ -155,7 +155,7 @@ namespace Cloo
             SetID(Handle.Value);
             
             _properties = properties;
-            ComputeContextProperty platformProperty = properties.GetByName(ComputeContextPropertyName.Platform);
+            ComputeContextProperty platformProperty = properties.GetByName(ComputeContextPropertyName.CL_CONTEXT_PLATFORM);
             _platform = ComputePlatform.GetByHandle(platformProperty.Value);
             _devices = GetDevices();
 
@@ -180,7 +180,7 @@ namespace Cloo
             SetID(Handle.Value);
 
             _properties = properties;
-            ComputeContextProperty platformProperty = properties.GetByName(ComputeContextPropertyName.Platform);
+            ComputeContextProperty platformProperty = properties.GetByName(ComputeContextPropertyName.CL_CONTEXT_PLATFORM);
             _platform = ComputePlatform.GetByHandle(platformProperty.Value);
             _devices = GetDevices();
 
@@ -211,7 +211,7 @@ namespace Cloo
             //foreach (var p in p1) p2.Add(new ComputeContextProperty(p.Name, p.Value));
 
             _properties = new ComputeContextPropertyList(p2);
-            ComputeContextProperty platformProperty = _properties.GetByName(ComputeContextPropertyName.Platform);
+            ComputeContextProperty platformProperty = _properties.GetByName(ComputeContextPropertyName.CL_CONTEXT_PLATFORM);
             _platform = ComputePlatform.GetByHandle(platformProperty.Value);
             _devices = GetDevices();
 
@@ -249,7 +249,7 @@ namespace Cloo
 
         private ReadOnlyCollection<ComputeDevice> GetDevices()
         {
-            List<CLDeviceHandle> deviceHandles = new List<CLDeviceHandle>(GetArrayInfo<CLContextHandle, ComputeContextInfo, CLDeviceHandle>(Handle, ComputeContextInfo.Devices, CL12.GetContextInfo));
+            List<CLDeviceHandle> deviceHandles = new List<CLDeviceHandle>(GetArrayInfo<CLContextHandle, ComputeContextInfo, CLDeviceHandle>(Handle, ComputeContextInfo.CL_CONTEXT_DEVICES, CL12.GetContextInfo));
             List<ComputeDevice> devices = new List<ComputeDevice>();
             foreach (ComputePlatform platform in ComputePlatform.Platforms)
             {

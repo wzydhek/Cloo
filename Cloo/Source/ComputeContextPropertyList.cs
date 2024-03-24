@@ -61,7 +61,7 @@ namespace Cloo
         {
             _properties = new List<ComputeContextProperty>
             {
-                new ComputeContextProperty(ComputeContextPropertyName.Platform, platform.Handle.Value)
+                new ComputeContextProperty(ComputeContextPropertyName.CL_CONTEXT_PLATFORM, platform.Handle.Value)
             };
         }
 

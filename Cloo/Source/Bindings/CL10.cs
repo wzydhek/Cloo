@@ -30,8 +30,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
+using static System.Net.WebRequestMethods;
 
 namespace Cloo.Bindings
 {
@@ -50,92 +52,25 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clGetPlatformIDs")]
-        public static extern ComputeErrorCode GetPlatformIDs(
-            Int32 num_entries,
-            [Out, MarshalAs(UnmanagedType.LPArray)] CLPlatformHandle[] platforms,
-            out Int32 num_platforms);
+        [DllImport(libName, EntryPoint = "clBuildProgram")]
+        public static extern ComputeErrorCode BuildProgram(
+            CLProgramHandle program,
+            int num_devices,
+            [MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] device_list,
+            string options,
+            ComputeProgramBuildNotifier pfn_notify,
+            IntPtr user_data);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clGetPlatformInfo")]
-        public static extern ComputeErrorCode GetPlatformInfo(
-            CLPlatformHandle platform,
-            ComputePlatformInfo param_name,
-            IntPtr param_value_size,
-            IntPtr param_value,
-            out IntPtr param_value_size_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clGetDeviceIDs")]
-        public static extern ComputeErrorCode GetDeviceIDs(
-            CLPlatformHandle platform,
-            ComputeDeviceTypes device_type,
-            Int32 num_entries,
-            [Out, MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] devices,
-            out Int32 num_devices);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clGetDeviceInfo")]
-        public static extern ComputeErrorCode GetDeviceInfo(
-            CLDeviceHandle device,
-            ComputeDeviceInfo param_name,
-            IntPtr param_value_size,
-            IntPtr param_value,
-            out IntPtr param_value_size_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clCreateContext")]
-        public static extern CLContextHandle CreateContext(
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] properties,
-            Int32 num_devices,
-            [MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] devices,
-            ComputeContextNotifier pfn_notify,
-            IntPtr user_data,
-            out ComputeErrorCode errcode_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clCreateContextFromType")]
-        public static extern CLContextHandle CreateContextFromType(
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] properties,
-            ComputeDeviceTypes device_type,
-            ComputeContextNotifier pfn_notify,
-            IntPtr user_data,
-            out ComputeErrorCode errcode_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clRetainContext")]
-        public static extern ComputeErrorCode RetainContext(
-            CLContextHandle context);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clReleaseContext")]
-        public static extern ComputeErrorCode ReleaseContext(
-            CLContextHandle context);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clGetContextInfo")]
-        public static extern ComputeErrorCode GetContextInfo(
+        [DllImport(libName, EntryPoint = "clCreateBuffer")]
+        public static extern CLMemoryHandle CreateBuffer(
             CLContextHandle context,
-            ComputeContextInfo param_name,
-            IntPtr param_value_size,
-            IntPtr param_value,
-            out IntPtr param_value_size_ret);
+            ComputeMemoryFlags flags,
+            IntPtr size,
+            IntPtr host_ptr,
+            out ComputeErrorCode errcode_ret);
 
         /// <summary>
         /// See the OpenCL specification.
@@ -150,48 +85,24 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clRetainCommandQueue")]
-        public static extern ComputeErrorCode RetainCommandQueue(
-            CLCommandQueueHandle command_queue);
+        [DllImport(libName, EntryPoint = "clCreateContext")]
+        public static extern CLContextHandle CreateContext(
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] properties,
+            int num_devices,
+            [MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] devices,
+            ComputeContextNotifier pfn_notify,
+            IntPtr user_data,
+            out ComputeErrorCode errcode_ret);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clReleaseCommandQueue")]
-        public static extern ComputeErrorCode
-        ReleaseCommandQueue(
-            CLCommandQueueHandle command_queue);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clGetCommandQueueInfo")]
-        public static extern ComputeErrorCode GetCommandQueueInfo(
-            CLCommandQueueHandle command_queue,
-            ComputeCommandQueueInfo param_name,
-            IntPtr param_value_size,
-            IntPtr param_value,
-            out IntPtr param_value_size_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetCommandQueueProperty")]
-        public static extern ComputeErrorCode SetCommandQueueProperty(
-            CLCommandQueueHandle command_queue,
-            ComputeCommandQueueFlags properties,
-            [MarshalAs(UnmanagedType.Bool)] bool enable,
-            out ComputeCommandQueueFlags old_properties);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clCreateBuffer")]
-        public static extern CLMemoryHandle CreateBuffer(
-            CLContextHandle context,
-            ComputeMemoryFlags flags,
-            IntPtr size,
-            IntPtr host_ptr,
+        [DllImport(libName, EntryPoint = "clCreateContextFromType")]
+        public static extern CLContextHandle CreateContextFromType(
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] properties,
+            ComputeDeviceTypes device_type,
+            ComputeContextNotifier pfn_notify,
+            IntPtr user_data,
             out ComputeErrorCode errcode_ret);
 
         /// <summary>
@@ -227,50 +138,45 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clRetainMemObject")]
-        public static extern ComputeErrorCode RetainMemObject(
-            CLMemoryHandle memobj);
+        [DllImport(libName, EntryPoint = "clCreateKernel")]
+        public static extern CLKernelHandle CreateKernel(
+            CLProgramHandle program,
+            string kernel_name,
+            out ComputeErrorCode errcode_ret);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clReleaseMemObject")]
-        public static extern ComputeErrorCode ReleaseMemObject(
-            CLMemoryHandle memobj);
+        [DllImport(libName, EntryPoint = "clCreateKernelsInProgram")]
+        public static extern ComputeErrorCode CreateKernelsInProgram(
+            CLProgramHandle program,
+            int num_kernels,
+            [Out, MarshalAs(UnmanagedType.LPArray)] CLKernelHandle[] kernels,
+            out int num_kernels_ret);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clGetSupportedImageFormats")]
-        public static extern ComputeErrorCode GetSupportedImageFormats(
+        [DllImport(libName, EntryPoint = "clCreateProgramWithBinary")]
+        public static extern CLProgramHandle CreateProgramWithBinary(
             CLContextHandle context,
-            ComputeMemoryFlags flags,
-            ComputeMemoryType image_type,
-            Int32 num_entries,
-            [Out, MarshalAs(UnmanagedType.LPArray)] ComputeImageFormat[] image_formats,
-            out Int32 num_image_formats);
+            int num_devices,
+            [MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] device_list,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] lengths,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] binaries,
+            [MarshalAs(UnmanagedType.LPArray)] int[] binary_status,
+            out ComputeErrorCode errcode_ret);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clGetMemObjectInfo")]
-        public static extern ComputeErrorCode GetMemObjectInfo(
-            CLMemoryHandle memobj,
-            ComputeMemoryInfo param_name,
-            IntPtr param_value_size,
-            IntPtr param_value,
-            out IntPtr param_value_size_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clGetImageInfo")]
-        public static extern ComputeErrorCode GetImageInfo(
-            CLMemoryHandle image,
-            ComputeImageInfo param_name,
-            IntPtr param_value_size,
-            IntPtr param_value,
-            out IntPtr param_value_size_ret);
+        [DllImport(libName, EntryPoint = "clCreateProgramWithSource")]
+        public static extern CLProgramHandle CreateProgramWithSource(
+            CLContextHandle context,
+            int count,
+            string[] strings,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] lengths,
+            out ComputeErrorCode errcode_ret);
 
         /// <summary>
         /// See the OpenCL specification.
@@ -286,24 +192,262 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clRetainSampler")]
-        public static extern ComputeErrorCode RetainSampler(
-            CLSamplerHandle sample);
+        [DllImport(libName, EntryPoint = "clEnqueueBarrier")]
+        public static extern ComputeErrorCode EnqueueBarrier(
+            CLCommandQueueHandle command_queue);
+
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clReleaseSampler")]
-        public static extern ComputeErrorCode ReleaseSampler(
-            CLSamplerHandle sample);
+        [DllImport(libName, EntryPoint = "clEnqueueCopyBuffer")]
+        public static extern ComputeErrorCode EnqueueCopyBuffer(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle src_buffer,
+            CLMemoryHandle dst_buffer,
+            IntPtr src_offset,
+            IntPtr dst_offset,
+            IntPtr cb,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clGetSamplerInfo")]
-        public static extern ComputeErrorCode GetSamplerInfo(
-            CLSamplerHandle sample,
-            ComputeSamplerInfo param_name,
+        [DllImport(libName, EntryPoint = "clEnqueueCopyBufferToImage")]
+        public static extern ComputeErrorCode EnqueueCopyBufferToImage(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle src_buffer,
+            CLMemoryHandle dst_image,
+            IntPtr src_offset,
+            ref SysIntX3 dst_origin,
+            ref SysIntX3 region,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueCopyImage")]
+        public static extern ComputeErrorCode EnqueueCopyImage(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle src_image,
+            CLMemoryHandle dst_image,
+            ref SysIntX3 src_origin,
+            ref SysIntX3 dst_origin,
+            ref SysIntX3 region,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueCopyImageToBuffer")]
+        public static extern ComputeErrorCode EnqueueCopyImageToBuffer(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle src_image,
+            CLMemoryHandle dst_buffer,
+            ref SysIntX3 src_origin,
+            ref SysIntX3 region,
+            IntPtr dst_offset,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueMapBuffer")]
+        public static extern IntPtr EnqueueMapBuffer(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle buffer,
+            [MarshalAs(UnmanagedType.Bool)] bool blocking_map,
+            ComputeMemoryMappingFlags map_flags,
+            IntPtr offset,
+            IntPtr cb,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event,
+            out ComputeErrorCode errcode_ret);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueMapImage")]
+        public static extern IntPtr EnqueueMapImage(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle image,
+            [MarshalAs(UnmanagedType.Bool)] bool blocking_map,
+            ComputeMemoryMappingFlags map_flags,
+            ref SysIntX3 origin,
+            ref SysIntX3 region,
+            out IntPtr image_row_pitch,
+            out IntPtr image_slice_pitch,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event,
+            out ComputeErrorCode errcode_ret);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueMarker")]
+        public static extern ComputeErrorCode EnqueueMarker(
+            CLCommandQueueHandle command_queue,
+            out CLEventHandle new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueNativeKernel")]
+        public static extern ComputeErrorCode EnqueueNativeKernel(
+            CLCommandQueueHandle command_queue,
+            ComputeUserFunc user_func,
+            IntPtr args,
+            IntPtr cb_args,
+            int num_mem_objects,
+            [MarshalAs(UnmanagedType.LPArray)] CLMemoryHandle[] mem_list,
+            [MarshalAs(UnmanagedType.LPArray)] ref CLMemoryHandle[] args_mem_loc,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueNDRangeKernel")]
+        public static extern ComputeErrorCode EnqueueNDRangeKernel(
+            CLCommandQueueHandle command_queue,
+            CLKernelHandle kernel,
+            int work_dim,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] global_work_offset,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] global_work_size,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] local_work_size,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueReadBuffer")]
+        public static extern ComputeErrorCode EnqueueReadBuffer(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle buffer,
+            [MarshalAs(UnmanagedType.Bool)] bool blocking_read,
+            IntPtr offset,
+            IntPtr cb,
+            IntPtr ptr,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueReadImage")]
+        public static extern ComputeErrorCode EnqueueReadImage(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle image,
+            [MarshalAs(UnmanagedType.Bool)] bool blocking_read,
+            ref SysIntX3 origin,
+            ref SysIntX3 region,
+            IntPtr row_pitch,
+            IntPtr slice_pitch,
+            IntPtr ptr,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueTask")]
+        public static extern ComputeErrorCode EnqueueTask(
+            CLCommandQueueHandle command_queue,
+            CLKernelHandle kernel,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueUnmapMemObject")]
+        public static extern ComputeErrorCode EnqueueUnmapMemObject(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle memobj,
+            IntPtr mapped_ptr,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueWaitForEvents")]
+        public static extern ComputeErrorCode EnqueueWaitForEvents(
+            CLCommandQueueHandle command_queue,
+            int num_events,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_list);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueWriteBuffer")]
+        public static extern ComputeErrorCode EnqueueWriteBuffer(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle buffer,
+            [MarshalAs(UnmanagedType.Bool)] bool blocking_write,
+            IntPtr offset,
+            IntPtr cb,
+            IntPtr ptr,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clEnqueueWriteImage")]
+        public static extern ComputeErrorCode EnqueueWriteImage(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle image,
+            [MarshalAs(UnmanagedType.Bool)] bool blocking_write,
+            ref SysIntX3 origin,
+            ref SysIntX3 region,
+            IntPtr input_row_pitch,
+            IntPtr input_slice_pitch,
+            IntPtr ptr,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clFinish")]
+        public static extern ComputeErrorCode Finish(
+            CLCommandQueueHandle command_queue);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clFlush")]
+        public static extern ComputeErrorCode Flush(
+            CLCommandQueueHandle command_queue);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clGetCommandQueueInfo")]
+        public static extern ComputeErrorCode GetCommandQueueInfo(
+            CLCommandQueueHandle command_queue,
+            ComputeCommandQueueInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -311,66 +455,10 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clCreateProgramWithSource")]
-        public static extern CLProgramHandle CreateProgramWithSource(
+        [DllImport(libName, EntryPoint = "clGetContextInfo")]
+        public static extern ComputeErrorCode GetContextInfo(
             CLContextHandle context,
-            Int32 count,
-            String[] strings,
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] lengths,
-            out ComputeErrorCode errcode_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clCreateProgramWithBinary")]
-        public static extern CLProgramHandle CreateProgramWithBinary(
-            CLContextHandle context,
-            Int32 num_devices,
-            [MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] device_list,
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] lengths,
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] binaries,
-            [MarshalAs(UnmanagedType.LPArray)] Int32[] binary_status,
-            out ComputeErrorCode errcode_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clRetainProgram")]
-        public static extern ComputeErrorCode RetainProgram(
-            CLProgramHandle program);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clReleaseProgram")]
-        public static extern ComputeErrorCode ReleaseProgram(
-            CLProgramHandle program);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clBuildProgram")]
-        public static extern ComputeErrorCode BuildProgram(
-            CLProgramHandle program,
-            Int32 num_devices,
-            [MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] device_list,
-            String options,
-            ComputeProgramBuildNotifier pfn_notify,
-            IntPtr user_data);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clUnloadCompiler")]
-        public static extern ComputeErrorCode UnloadCompiler();
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clGetProgramInfo")]
-        public static extern ComputeErrorCode GetProgramInfo(
-            CLProgramHandle program,
-            ComputeProgramInfo param_name,
+            ComputeContextInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -378,11 +466,21 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clGetProgramBuildInfo")]
-        public static extern ComputeErrorCode GetProgramBuildInfo(
-            CLProgramHandle program,
+        [DllImport(libName, EntryPoint = "clGetDeviceIDs")]
+        public static extern ComputeErrorCode GetDeviceIDs(
+            CLPlatformHandle platform,
+            ComputeDeviceTypes device_type,
+            int num_entries,
+            [Out, MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] devices,
+            out int num_devices);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clGetDeviceInfo")]
+        public static extern ComputeErrorCode GetDeviceInfo(
             CLDeviceHandle device,
-            ComputeProgramBuildInfo param_name,
+            ComputeDeviceInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -390,145 +488,35 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clCreateKernel")]
-        public static extern CLKernelHandle CreateKernel(
-            CLProgramHandle program,
-            String kernel_name,
-            out ComputeErrorCode errcode_ret);
+        [DllImport(libName, EntryPoint = "clGetEventInfo")]
+        public static extern ComputeErrorCode GetEventInfo(
+            CLEventHandle @event,
+            ComputeEventInfo param_name,
+            IntPtr param_value_size,
+            IntPtr param_value,
+            out IntPtr param_value_size_ret);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clCreateKernelsInProgram")]
-        public static extern ComputeErrorCode CreateKernelsInProgram(
-            CLProgramHandle program,
-            Int32 num_kernels,
-            [Out, MarshalAs(UnmanagedType.LPArray)] CLKernelHandle[] kernels,
-            out Int32 num_kernels_ret);
+        [DllImport(libName, EntryPoint = "clGetEventProfilingInfo")]
+        public static extern ComputeErrorCode GetEventProfilingInfo(
+            CLEventHandle @event,
+            ComputeCommandProfilingInfo param_name,
+            IntPtr param_value_size,
+            IntPtr param_value,
+            out IntPtr param_value_size_ret);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clRetainKernel")]
-        public static extern ComputeErrorCode RetainKernel(
-            CLKernelHandle kernel);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clReleaseKernel")]
-        public static extern ComputeErrorCode ReleaseKernel(
-            CLKernelHandle kernel);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            IntPtr arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref CLMemoryHandle arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref byte arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref ushort arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref short arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref uint arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref int arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref ulong arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref long arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref float arg_value);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetKernelArg")]
-        public static extern ComputeErrorCode SetKernelArg(
-            CLKernelHandle kernel,
-            Int32 arg_index,
-            IntPtr arg_size,
-            ref double arg_value);
+        [DllImport(libName, EntryPoint = "clGetImageInfo")]
+        public static extern ComputeErrorCode GetImageInfo(
+            CLMemoryHandle image,
+            ComputeImageInfo param_name,
+            IntPtr param_value_size,
+            IntPtr param_value,
+            out IntPtr param_value_size_ret);
 
         /// <summary>
         /// See the OpenCL specification.
@@ -556,18 +544,10 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clWaitForEvents")]
-        public static extern ComputeErrorCode WaitForEvents(
-            Int32 num_events,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_list);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clGetEventInfo")]
-        public static extern ComputeErrorCode GetEventInfo(
-            CLEventHandle @event,
-            ComputeEventInfo param_name,
+        [DllImport(libName, EntryPoint = "clGetMemObjectInfo")]
+        public static extern ComputeErrorCode GetMemObjectInfo(
+            CLMemoryHandle memobj,
+            ComputeMemoryInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -575,9 +555,83 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clRetainEvent")]
-        public static extern ComputeErrorCode RetainEvent(
-            CLEventHandle @event);
+        [DllImport(libName, EntryPoint = "clGetPlatformIDs")]
+        public static extern ComputeErrorCode GetPlatformIDs(
+            int num_entries,
+            [Out, MarshalAs(UnmanagedType.LPArray)] CLPlatformHandle[] platforms,
+            out int num_platforms);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clGetPlatformInfo")]
+        public static extern ComputeErrorCode GetPlatformInfo(
+            CLPlatformHandle platform,
+            ComputePlatformInfo param_name,
+            IntPtr param_value_size,
+            IntPtr param_value,
+            out IntPtr param_value_size_ret);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clGetProgramBuildInfo")]
+        public static extern ComputeErrorCode GetProgramBuildInfo(
+            CLProgramHandle program,
+            CLDeviceHandle device,
+            ComputeProgramBuildInfo param_name,
+            IntPtr param_value_size,
+            IntPtr param_value,
+            out IntPtr param_value_size_ret);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clGetProgramInfo")]
+        public static extern ComputeErrorCode GetProgramInfo(
+            CLProgramHandle program,
+            ComputeProgramInfo param_name,
+            IntPtr param_value_size,
+            IntPtr param_value,
+            out IntPtr param_value_size_ret);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clGetSamplerInfo")]
+        public static extern ComputeErrorCode GetSamplerInfo(
+            CLSamplerHandle sample,
+            ComputeSamplerInfo param_name,
+            IntPtr param_value_size,
+            IntPtr param_value,
+            out IntPtr param_value_size_ret);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clGetSupportedImageFormats")]
+        public static extern ComputeErrorCode GetSupportedImageFormats(
+            CLContextHandle context,
+            ComputeMemoryFlags flags,
+            ComputeMemoryType image_type,
+            int num_entries,
+            [Out, MarshalAs(UnmanagedType.LPArray)] ComputeImageFormat[] image_formats,
+            out int num_image_formats);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clReleaseCommandQueue")]
+        public static extern ComputeErrorCode
+        ReleaseCommandQueue(
+            CLCommandQueueHandle command_queue);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clReleaseContext")]
+        public static extern ComputeErrorCode ReleaseContext(
+            CLContextHandle context);
 
         /// <summary>
         /// See the OpenCL specification.
@@ -589,265 +643,214 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clGetEventProfilingInfo")]
-        public static extern ComputeErrorCode GetEventProfilingInfo(
-            CLEventHandle @event,
-            ComputeCommandProfilingInfo param_name,
-            IntPtr param_value_size,
-            IntPtr param_value,
-            out IntPtr param_value_size_ret);
+        [DllImport(libName, EntryPoint = "clReleaseKernel")]
+        public static extern ComputeErrorCode ReleaseKernel(
+            CLKernelHandle kernel);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clFlush")]
-        public static extern ComputeErrorCode Flush(
+        [DllImport(libName, EntryPoint = "clReleaseMemObject")]
+        public static extern ComputeErrorCode ReleaseMemObject(
+            CLMemoryHandle memobj);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clReleaseProgram")]
+        public static extern ComputeErrorCode ReleaseProgram(
+            CLProgramHandle program);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clReleaseSampler")]
+        public static extern ComputeErrorCode ReleaseSampler(
+            CLSamplerHandle sample);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clRetainCommandQueue")]
+        public static extern ComputeErrorCode RetainCommandQueue(
             CLCommandQueueHandle command_queue);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clFinish")]
-        public static extern ComputeErrorCode Finish(
-            CLCommandQueueHandle command_queue);
+        [DllImport(libName, EntryPoint = "clRetainContext")]
+        public static extern ComputeErrorCode RetainContext(
+            CLContextHandle context);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueReadBuffer")]
-        public static extern ComputeErrorCode EnqueueReadBuffer(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle buffer,
-            [MarshalAs(UnmanagedType.Bool)] bool blocking_read,
-            IntPtr offset,
-            IntPtr cb,
-            IntPtr ptr,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+        [DllImport(libName, EntryPoint = "clRetainEvent")]
+        public static extern ComputeErrorCode RetainEvent(
+            CLEventHandle @event);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueWriteBuffer")]
-        public static extern ComputeErrorCode EnqueueWriteBuffer(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle buffer,
-            [MarshalAs(UnmanagedType.Bool)] bool blocking_write,
-            IntPtr offset,
-            IntPtr cb,
-            IntPtr ptr,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+        [DllImport(libName, EntryPoint = "clRetainKernel")]
+        public static extern ComputeErrorCode RetainKernel(
+            CLKernelHandle kernel);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueCopyBuffer")]
-        public static extern ComputeErrorCode EnqueueCopyBuffer(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle src_buffer,
-            CLMemoryHandle dst_buffer,
-            IntPtr src_offset,
-            IntPtr dst_offset,
-            IntPtr cb,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+        [DllImport(libName, EntryPoint = "clRetainMemObject")]
+        public static extern ComputeErrorCode RetainMemObject(
+            CLMemoryHandle memobj);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueReadImage")]
-        public static extern ComputeErrorCode EnqueueReadImage(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle image,
-            [MarshalAs(UnmanagedType.Bool)] bool blocking_read,
-            ref SysIntX3 origin,
-            ref SysIntX3 region,
-            IntPtr row_pitch,
-            IntPtr slice_pitch,
-            IntPtr ptr,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+        [DllImport(libName, EntryPoint = "clRetainProgram")]
+        public static extern ComputeErrorCode RetainProgram(
+            CLProgramHandle program);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueWriteImage")]
-        public static extern ComputeErrorCode EnqueueWriteImage(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle image,
-            [MarshalAs(UnmanagedType.Bool)] bool blocking_write,
-            ref SysIntX3 origin,
-            ref SysIntX3 region,
-            IntPtr input_row_pitch,
-            IntPtr input_slice_pitch,
-            IntPtr ptr,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+        [DllImport(libName, EntryPoint = "clRetainSampler")]
+        public static extern ComputeErrorCode RetainSampler(
+            CLSamplerHandle sample);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueCopyImage")]
-        public static extern ComputeErrorCode EnqueueCopyImage(
+        [DllImport(libName, EntryPoint = "clSetCommandQueueProperty")]
+        public static extern ComputeErrorCode SetCommandQueueProperty(
             CLCommandQueueHandle command_queue,
-            CLMemoryHandle src_image,
-            CLMemoryHandle dst_image,
-            ref SysIntX3 src_origin,
-            ref SysIntX3 dst_origin,
-            ref SysIntX3 region,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+            ComputeCommandQueueFlags properties,
+            [MarshalAs(UnmanagedType.Bool)] bool enable,
+            out ComputeCommandQueueFlags old_properties);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueCopyImageToBuffer")]
-        public static extern ComputeErrorCode EnqueueCopyImageToBuffer(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle src_image,
-            CLMemoryHandle dst_buffer,
-            ref SysIntX3 src_origin,
-            ref SysIntX3 region,
-            IntPtr dst_offset,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueCopyBufferToImage")]
-        public static extern ComputeErrorCode EnqueueCopyBufferToImage(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle src_buffer,
-            CLMemoryHandle dst_image,
-            IntPtr src_offset,
-            ref SysIntX3 dst_origin,
-            ref SysIntX3 region,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueMapBuffer")]
-        public static extern IntPtr EnqueueMapBuffer(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle buffer,
-            [MarshalAs(UnmanagedType.Bool)] bool blocking_map,
-            ComputeMemoryMappingFlags map_flags,
-            IntPtr offset,
-            IntPtr cb,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event,
-            out ComputeErrorCode errcode_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueMapImage")]
-        public static extern IntPtr EnqueueMapImage(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle image,
-            [MarshalAs(UnmanagedType.Bool)] bool blocking_map,
-            ComputeMemoryMappingFlags map_flags,
-            ref SysIntX3 origin,
-            ref SysIntX3 region,
-            out IntPtr image_row_pitch,
-            out IntPtr image_slice_pitch,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event,
-            out ComputeErrorCode errcode_ret);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueUnmapMemObject")]
-        public static extern ComputeErrorCode EnqueueUnmapMemObject(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle memobj,
-            IntPtr mapped_ptr,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueNDRangeKernel")]
-        public static extern ComputeErrorCode EnqueueNDRangeKernel(
-            CLCommandQueueHandle command_queue,
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
             CLKernelHandle kernel,
-            Int32 work_dim,
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] global_work_offset,
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] global_work_size,
-            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] local_work_size,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+            int arg_index,
+            IntPtr arg_size,
+            IntPtr arg_value);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueTask")]
-        public static extern ComputeErrorCode EnqueueTask(
-            CLCommandQueueHandle command_queue,
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
             CLKernelHandle kernel,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
-
-        // <summary>
-        // See the OpenCL specification.
-        // </summary>
-        /*
-        [DllImport(libName, EntryPoint = "clEnqueueNativeKernel")]
-        public extern static ComputeErrorCode EnqueueNativeKernel(
-            CLCommandQueueHandle command_queue,
-            IntPtr user_func,
-            IntPtr args,
-            IntPtr cb_args,
-            Int32 num_mem_objects,
-            IntPtr* mem_list,
-            IntPtr* args_mem_loc,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
-        */
+            int arg_index,
+            IntPtr arg_size,
+            ref CLMemoryHandle arg_value);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueMarker")]
-        public static extern ComputeErrorCode EnqueueMarker(
-            CLCommandQueueHandle command_queue,
-            out CLEventHandle new_event);
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref byte arg_value);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueWaitForEvents")]
-        public static extern ComputeErrorCode EnqueueWaitForEvents(
-            CLCommandQueueHandle command_queue,
-            Int32 num_events,
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref ushort arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref short arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref uint arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref int arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref ulong arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref long arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref float arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetKernelArg")]
+        public static extern ComputeErrorCode SetKernelArg(
+            CLKernelHandle kernel,
+            int arg_index,
+            IntPtr arg_size,
+            ref double arg_value);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clUnloadCompiler")]
+        public static extern ComputeErrorCode UnloadCompiler();
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clWaitForEvents")]
+        public static extern ComputeErrorCode WaitForEvents(
+            int num_events,
             [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_list);
 
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueBarrier")]
-        public static extern ComputeErrorCode EnqueueBarrier(
-            CLCommandQueueHandle command_queue);
 
 
         /// <summary>
@@ -969,4 +972,14 @@ namespace Cloo.Bindings
     /// <param name="notifyDataPtr"> The pointer to the optional user data specified in <paramref name="notifyDataPtr"/> argument of <see cref="ComputeProgram.Build"/>. </param>
     /// <remarks> This callback function may be called asynchronously by the OpenCL implementation. It is the application's responsibility to ensure that the callback function is thread-safe. </remarks>
     public delegate void ComputeProgramBuildNotifier(CLProgramHandle programHandle, IntPtr notifyDataPtr);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public delegate void ComputeContextdNotifier(CLContextHandle contextHandle, IntPtr notifyDataPtr);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public delegate void ComputeUserFunc(IntPtr ptr);
 }

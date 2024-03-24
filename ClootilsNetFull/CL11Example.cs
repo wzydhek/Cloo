@@ -52,7 +52,7 @@ namespace Clootils
             try
             {
                 log.Write("Creating command queue... ");
-                ComputeCommandQueue commands = new ComputeCommandQueue(context, context.Devices[0], ComputeCommandQueueFlags.None);
+                ComputeCommandQueue commands = new ComputeCommandQueue(context, context.Devices[0], ComputeCommandQueueFlags.CL_QUEUE_NONE);
                 log.WriteLine("done.");
 
                 log.Write("Generating data... ");
@@ -82,7 +82,7 @@ namespace Clootils
                 log.WriteLine("done.");
 
                 log.Write("Creating buffer... ");
-                ComputeBuffer<float> buffer = new ComputeBuffer<float>(context, ComputeMemoryFlags.ReadWrite, linearSize);
+                ComputeBuffer<float> buffer = new ComputeBuffer<float>(context, ComputeMemoryFlags.CL_MEM_READ_WRITE, linearSize);
                 log.WriteLine("done.");
 
                 GC.Collect();

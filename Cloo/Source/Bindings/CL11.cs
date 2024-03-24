@@ -57,15 +57,6 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clSetMemObjectDestructorCallback")]
-        public static extern ComputeErrorCode SetMemObjectDestructorCallback( 
-            CLMemoryHandle memobj, 
-            ComputeMemoryDestructorNotifer pfn_notify, 
-            IntPtr user_data);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
         [DllImport(libName, EntryPoint = "clCreateUserEvent")]
         public static extern CLEventHandle CreateUserEvent(
             CLContextHandle context,
@@ -74,20 +65,21 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clSetUserEventStatus")]
-        public static extern ComputeErrorCode SetUserEventStatus(
-            CLEventHandle @event,
-            Int32 execution_status);
-
-        /// <summary>
-        /// See the OpenCL specification.
-        /// </summary>
-        [DllImport(libName, EntryPoint = "clSetEventCallback")]
-        public static extern ComputeErrorCode SetEventCallback(
-            CLEventHandle @event,
-            Int32 command_exec_callback_type,
-            ComputeEventCallback pfn_notify,
-            IntPtr user_data);
+        [DllImport(libName, EntryPoint = "clEnqueueCopyBufferRect")]
+        public static extern ComputeErrorCode EnqueueCopyBufferRect(
+            CLCommandQueueHandle command_queue,
+            CLMemoryHandle src_buffer,
+            CLMemoryHandle dst_buffer,
+            ref SysIntX3 src_origin,
+            ref SysIntX3 dst_origin,
+            ref SysIntX3 region,
+            IntPtr src_row_pitch,
+            IntPtr src_slice_pitch,
+            IntPtr dst_row_pitch,
+            IntPtr dst_slice_pitch,
+            int num_events_in_wait_list,
+            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
 
         /// <summary>
         /// See the OpenCL specification.
@@ -105,9 +97,9 @@ namespace Cloo.Bindings
             IntPtr host_row_pitch,
             IntPtr host_slice_pitch,
             IntPtr ptr,
-            Int32 num_events_in_wait_list,
+            int num_events_in_wait_list,
             [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
 
         /// <summary>
         /// See the OpenCL specification.
@@ -125,28 +117,37 @@ namespace Cloo.Bindings
             IntPtr host_row_pitch,
             IntPtr host_slice_pitch,
             IntPtr ptr,
-            Int32 num_events_in_wait_list,
+            int num_events_in_wait_list,
             [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
 
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        [DllImport(libName, EntryPoint = "clEnqueueCopyBufferRect")]
-        public static extern ComputeErrorCode EnqueueCopyBufferRect(
-            CLCommandQueueHandle command_queue,
-            CLMemoryHandle src_buffer,
-            CLMemoryHandle dst_buffer,
-            ref SysIntX3 src_origin,
-            ref SysIntX3 dst_origin,
-            ref SysIntX3 region,
-            IntPtr src_row_pitch,
-            IntPtr src_slice_pitch,
-            IntPtr dst_row_pitch,
-            IntPtr dst_slice_pitch,
-            Int32 num_events_in_wait_list,
-            [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
-            [Out, MarshalAs(UnmanagedType.LPArray, SizeConst=1)] CLEventHandle[] new_event);
+        [DllImport(libName, EntryPoint = "clSetEventCallback")]
+        public static extern ComputeErrorCode SetEventCallback(
+            CLEventHandle @event,
+            int command_exec_callback_type,
+            ComputeEventCallback pfn_notify,
+            IntPtr user_data);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetMemObjectDestructorCallback")]
+        public static extern ComputeErrorCode SetMemObjectDestructorCallback(
+            CLMemoryHandle memobj,
+            ComputeMemoryDestructorNotifer pfn_notify,
+            IntPtr user_data);
+
+        /// <summary>
+        /// See the OpenCL specification.
+        /// </summary>
+        [DllImport(libName, EntryPoint = "clSetUserEventStatus")]
+        public static extern ComputeErrorCode SetUserEventStatus(
+            CLEventHandle @event,
+            Int32 execution_status);
+
 
         #region Deprecated functions
 

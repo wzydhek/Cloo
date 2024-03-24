@@ -164,13 +164,13 @@ namespace Cloo
             Handle = handle;
             SetID(Handle.Value);
 
-            string extensionString = GetStringInfo(Handle, ComputePlatformInfo.Extensions, CL12.GetPlatformInfo);
+            string extensionString = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_EXTENSIONS, CL12.GetPlatformInfo);
             _extensions = new ReadOnlyCollection<string>(extensionString.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
-            _name = GetStringInfo(Handle, ComputePlatformInfo.Name, CL12.GetPlatformInfo);
-            _profile = GetStringInfo(Handle, ComputePlatformInfo.Profile, CL12.GetPlatformInfo);
-            _vendor = GetStringInfo(Handle, ComputePlatformInfo.Vendor, CL12.GetPlatformInfo);
-            _version = GetStringInfo(Handle, ComputePlatformInfo.Version, CL12.GetPlatformInfo);
+            _name = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_NAME, CL12.GetPlatformInfo);
+            _profile = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_PROFILE, CL12.GetPlatformInfo);
+            _vendor = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_VENDOR, CL12.GetPlatformInfo);
+            _version = GetStringInfo(Handle, ComputePlatformInfo.CL_PLATFORM_VERSION, CL12.GetPlatformInfo);
             QueryDevices();
         }
 

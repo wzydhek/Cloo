@@ -159,7 +159,7 @@ namespace Cloo
         /// <returns> The collection of the required <see cref="ComputeImageFormat"/>s. </returns>
         public static ICollection<ComputeImageFormat> GetSupportedFormats(ComputeContext context, ComputeMemoryFlags flags)
         {
-            return GetSupportedFormats(context, flags, ComputeMemoryType.Image2D);
+            return GetSupportedFormats(context, flags, ComputeMemoryType.CL_MEM_OBJECT_IMAGE2D);
         }
 
         #endregion

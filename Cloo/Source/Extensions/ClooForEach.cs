@@ -42,7 +42,7 @@ namespace Cloo.Extensions
                 {
                     var kernel = kernels.First((k) => kernelSelector(k.FunctionName));
 
-                    using (var primesBuffer = new ComputeBuffer<TSource>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.UseHostPointer, array))
+                    using (var primesBuffer = new ComputeBuffer<TSource>(context, ComputeMemoryFlags.CL_MEM_READ_WRITE | ComputeMemoryFlags.CL_MEM_USE_HOST_PTR, array))
                     {
                         kernel.SetMemoryArgument(0, primesBuffer);
 

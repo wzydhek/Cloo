@@ -99,7 +99,7 @@ namespace Cloo
             SetID(Handle.Value);
 
             _context = program.Context;
-            _functionName = GetStringInfo(Handle, ComputeKernelInfo.FunctionName, CL12.GetKernelInfo);
+            _functionName = GetStringInfo(Handle, ComputeKernelInfo.CL_KERNEL_FUNCTION_NAME, CL12.GetKernelInfo);
             _program = program;
 
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
@@ -131,7 +131,7 @@ namespace Cloo
         public long GetLocalMemorySize(ComputeDevice device)
         {
             return GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, long>(
-                Handle, device.Handle, ComputeKernelWorkGroupInfo.LocalMemorySize, CL12.GetKernelWorkGroupInfo);
+                Handle, device.Handle, ComputeKernelWorkGroupInfo.CL_KERNEL_LOCAL_MEM_SIZE, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Cloo
         {
             return ComputeTools.ConvertArray(
                 GetArrayInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, IntPtr>(
-                    Handle, device.Handle, ComputeKernelWorkGroupInfo.CompileWorkGroupSize, CL12.GetKernelWorkGroupInfo));
+                    Handle, device.Handle, ComputeKernelWorkGroupInfo.CL_KERNEL_COMPILE_WORK_GROUP_SIZE, CL12.GetKernelWorkGroupInfo));
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Cloo
         public long GetPreferredWorkGroupSizeMultiple(ComputeDevice device)
         {
             return (long)GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, IntPtr>(
-                Handle, device.Handle, ComputeKernelWorkGroupInfo.PreferredWorkGroupSizeMultiple, CL12.GetKernelWorkGroupInfo);
+                Handle, device.Handle, ComputeKernelWorkGroupInfo.CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Cloo
         public long GetPrivateMemorySize(ComputeDevice device)
         {
             return GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, long>(
-                Handle, device.Handle, ComputeKernelWorkGroupInfo.PrivateMemorySize, CL12.GetKernelWorkGroupInfo);
+                Handle, device.Handle, ComputeKernelWorkGroupInfo.CL_KERNEL_PRIVATE_MEM_SIZE, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Cloo
         public long GetWorkGroupSize(ComputeDevice device)
         {
             return (long)GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, IntPtr>(
-                    Handle, device.Handle, ComputeKernelWorkGroupInfo.WorkGroupSize, CL12.GetKernelWorkGroupInfo);
+                    Handle, device.Handle, ComputeKernelWorkGroupInfo.CL_KERNEL_WORK_GROUP_SIZE, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>

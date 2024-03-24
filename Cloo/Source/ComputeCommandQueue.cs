@@ -119,8 +119,8 @@ namespace Cloo
             _device = device;
             _context = context;
             
-            _outOfOrderExec = (properties & ComputeCommandQueueFlags.OutOfOrderExecution) == ComputeCommandQueueFlags.OutOfOrderExecution;
-            _profiling = (properties & ComputeCommandQueueFlags.Profiling) == ComputeCommandQueueFlags.Profiling;
+            _outOfOrderExec = (properties & ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE;
+            _profiling = (properties & ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE;
             
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
         }
@@ -139,9 +139,9 @@ namespace Cloo
 
             SetID(Handle.Value);
 
-            var contextHandle = GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, CLContextHandle>(Handle, ComputeCommandQueueInfo.Context, CL12.GetCommandQueueInfo);
-            var deviceHandle = GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, CLDeviceHandle>(Handle, ComputeCommandQueueInfo.Device, CL12.GetCommandQueueInfo);
-            var properties = (ComputeCommandQueueFlags)GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, long>(Handle, ComputeCommandQueueInfo.Properties, CL12.GetCommandQueueInfo);
+            var contextHandle = GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, CLContextHandle>(Handle, ComputeCommandQueueInfo.CL_QUEUE_CONTEXT, CL12.GetCommandQueueInfo);
+            var deviceHandle = GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, CLDeviceHandle>(Handle, ComputeCommandQueueInfo.CL_QUEUE_DEVICE, CL12.GetCommandQueueInfo);
+            var properties = (ComputeCommandQueueFlags)GetInfo<CLCommandQueueHandle, ComputeCommandQueueInfo, long>(Handle, ComputeCommandQueueInfo.CL_QUEUE_PROPERTIES, CL12.GetCommandQueueInfo);
 
             if (context.Handle.Value != contextHandle.Value) throw new ArgumentException("Context does not belong to queue", nameof(context));
 
@@ -156,8 +156,8 @@ namespace Cloo
                 }
             }
             
-            _outOfOrderExec = (properties & ComputeCommandQueueFlags.OutOfOrderExecution) == ComputeCommandQueueFlags.OutOfOrderExecution;
-            _profiling = (properties & ComputeCommandQueueFlags.Profiling) == ComputeCommandQueueFlags.Profiling;
+            _outOfOrderExec = (properties & ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE;
+            _profiling = (properties & ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE) == ComputeCommandQueueFlags.CL_QUEUE_PROFILING_ENABLE;
             
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
         }

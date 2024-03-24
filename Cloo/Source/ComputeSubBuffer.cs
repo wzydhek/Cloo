@@ -55,7 +55,7 @@ namespace Cloo
             var sizeofT = ComputeTools.SizeOf<T>();
 
             SysIntX2 region = new SysIntX2(offset * sizeofT, count * sizeofT);
-            Handle = CL11.CreateSubBuffer(buffer.Handle, flags, ComputeBufferCreateType.Region, ref region, out var error);
+            Handle = CL11.CreateSubBuffer(buffer.Handle, flags, ComputeBufferCreateType.CL_BUFFER_CREATE_TYPE_REGION, ref region, out var error);
             ComputeException.ThrowOnError(error);
 
             Init();

@@ -131,7 +131,7 @@ namespace Cloo
         /// </summary>
         /// <typeparam name="TDataType"> The type of the elements of the <see cref="ComputeBuffer{T}"/>. <typeparamref name="T"/> should match the type of the elements in the OpenGL buffer. </typeparam>
         /// <param name="context"> A <see cref="ComputeContext"/> with enabled CL/GL sharing. </param>
-        /// <param name="flags"> A bit-field that is used to specify usage information about the <see cref="ComputeBuffer{T}"/>. Only <see cref="ComputeMemoryFlags.ReadOnly"/>, <see cref="ComputeMemoryFlags.WriteOnly"/> and <see cref="ComputeMemoryFlags.ReadWrite"/> are allowed. </param>
+        /// <param name="flags"> A bit-field that is used to specify usage information about the <see cref="ComputeBuffer{T}"/>. Only <see cref="ComputeMemoryFlags.CL_MEM_READ_ONLY"/>, <see cref="ComputeMemoryFlags.CL_MEM_WRITE_ONLY"/> and <see cref="ComputeMemoryFlags.CL_MEM_READ_WRITE"/> are allowed. </param>
         /// <param name="bufferId"> The OpenGL buffer object id to use for the creation of the <see cref="ComputeBuffer{T}"/>. </param>
         /// <returns> The created <see cref="ComputeBuffer{T}"/>. </returns>
         public static ComputeBuffer<TDataType> CreateFromGLBuffer<TDataType>(ComputeContext context, ComputeMemoryFlags flags, int bufferId) where TDataType : struct
@@ -174,7 +174,7 @@ namespace Cloo
         {
             var memoryHandle = new CLMemoryHandle(handle);
 
-            var flags = (ComputeMemoryFlags)GetInfo<CLMemoryHandle, ComputeMemoryInfo, long>(memoryHandle, ComputeMemoryInfo.Flags, CL12.GetMemObjectInfo);
+            var flags = (ComputeMemoryFlags)GetInfo<CLMemoryHandle, ComputeMemoryInfo, long>(memoryHandle, ComputeMemoryInfo.CL_MEM_FLAGS, CL12.GetMemObjectInfo);
 
             return new ComputeBuffer<T>(memoryHandle, context, flags);
         }
