@@ -99,7 +99,7 @@ namespace Cloo
             SetID(Handle.Value);
 
             _context = program.Context;
-            _functionName = GetStringInfo(Handle, cl_kernel_info.CL_KERNEL_FUNCTION_NAME, CL12.GetKernelInfo);
+            _functionName = GetStringInfo(Handle, ComputeKernelInfo.FunctionName, CL12.GetKernelInfo);
             _program = program;
 
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
@@ -130,8 +130,8 @@ namespace Cloo
         /// <returns> The amount of local memory in bytes used by the <see cref="ComputeKernel"/>. </returns>
         public long GetLocalMemorySize(ComputeDevice device)
         {
-            return GetInfo<CLKernelHandle, CLDeviceHandle, cl_kernel_work_group_info, long>(
-                Handle, device.Handle, cl_kernel_work_group_info.CL_KERNEL_LOCAL_MEM_SIZE, CL12.GetKernelWorkGroupInfo);
+            return GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, long>(
+                Handle, device.Handle, ComputeKernelWorkGroupInfo.LocalMemorySize, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>
@@ -142,8 +142,8 @@ namespace Cloo
         public long[] GetCompileWorkGroupSize(ComputeDevice device)
         {
             return ComputeTools.ConvertArray(
-                GetArrayInfo<CLKernelHandle, CLDeviceHandle, cl_kernel_work_group_info, IntPtr>(
-                    Handle, device.Handle, cl_kernel_work_group_info.CL_KERNEL_COMPILE_WORK_GROUP_SIZE, CL12.GetKernelWorkGroupInfo));
+                GetArrayInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, IntPtr>(
+                    Handle, device.Handle, ComputeKernelWorkGroupInfo.CompileWorkGroupSize, CL12.GetKernelWorkGroupInfo));
         }
 
         /// <summary>
@@ -155,8 +155,8 @@ namespace Cloo
         /// <remarks> Requires OpenCL 1.1. </remarks>
         public long GetPreferredWorkGroupSizeMultiple(ComputeDevice device)
         {
-            return (long)GetInfo<CLKernelHandle, CLDeviceHandle, cl_kernel_work_group_info, IntPtr>(
-                Handle, device.Handle, cl_kernel_work_group_info.CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, CL12.GetKernelWorkGroupInfo);
+            return (long)GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, IntPtr>(
+                Handle, device.Handle, ComputeKernelWorkGroupInfo.PreferredWorkGroupSizeMultiple, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>
@@ -167,8 +167,8 @@ namespace Cloo
         /// <remarks> The returned value may include any private memory needed by an implementation to execute the kernel, including that used by the language built-ins and variable declared inside the kernel with the <c>__private</c> or <c>private</c> qualifier. </remarks>
         public long GetPrivateMemorySize(ComputeDevice device)
         {
-            return GetInfo<CLKernelHandle, CLDeviceHandle, cl_kernel_work_group_info, long>(
-                Handle, device.Handle, cl_kernel_work_group_info.CL_KERNEL_PRIVATE_MEM_SIZE, CL12.GetKernelWorkGroupInfo);
+            return GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, long>(
+                Handle, device.Handle, ComputeKernelWorkGroupInfo.PrivateMemorySize, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>
@@ -178,8 +178,8 @@ namespace Cloo
         /// <returns> The maximum work-group size that can be used to execute the <see cref="ComputeKernel"/> on <paramref name="device"/>. </returns>
         public long GetWorkGroupSize(ComputeDevice device)
         {
-            return (long)GetInfo<CLKernelHandle, CLDeviceHandle, cl_kernel_work_group_info, IntPtr>(
-                    Handle, device.Handle, cl_kernel_work_group_info.CL_KERNEL_WORK_GROUP_SIZE, CL12.GetKernelWorkGroupInfo);
+            return (long)GetInfo<CLKernelHandle, CLDeviceHandle, ComputeKernelWorkGroupInfo, IntPtr>(
+                    Handle, device.Handle, ComputeKernelWorkGroupInfo.WorkGroupSize, CL12.GetKernelWorkGroupInfo);
         }
 
         /// <summary>

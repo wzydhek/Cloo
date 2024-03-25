@@ -55,11 +55,11 @@ namespace Cloo
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly string _driverVersion;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly bool _endianLittle;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly bool _errorCorrectionSupport;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly cl_device_exec_capabilities _executionCapabilities;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ComputeDeviceExecutionCapabilities _executionCapabilities;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ReadOnlyCollection<string> _extensions;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _globalMemoryCachelineSize;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _globalMemoryCacheSize;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly cl_device_mem_cache_type _globalMemoryCacheType;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ComputeDeviceMemoryCacheType _globalMemoryCacheType;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _globalMemorySize;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly bool _imageSupport;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _image2DMaxHeight;
@@ -68,7 +68,7 @@ namespace Cloo
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _image3DMaxHeight;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _image3DMaxWidth;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _localMemorySize;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly cl_device_local_mem_type _localMemoryType;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ComputeDeviceLocalMemoryType _localMemoryType;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _maxClockFrequency;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _maxComputeUnits;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _maxConstantArguments;
@@ -92,9 +92,9 @@ namespace Cloo
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _preferredVectorWidthShort;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly string _profile;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _profilingTimerResolution;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly cl_command_queue_properties _queueProperties;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly cl_device_fp_config _singleCapabilities;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly cl_device_type _type;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ComputeCommandQueueFlags _queueProperties;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ComputeDeviceSingleCapabilities _singleCapabilities;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ComputeDeviceType _type;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly string _vendor;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly long _vendorId;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly string _version;
@@ -125,10 +125,10 @@ namespace Cloo
         public bool Available => _available;
 
         /// <summary>
-        /// Gets the <see cref="cl_command_queue_properties"/> supported by the <see cref="ComputeDevice"/>.
+        /// Gets the <see cref="ComputeCommandQueueFlags"/> supported by the <see cref="ComputeDevice"/>.
         /// </summary>
-        /// <value> The <see cref="cl_command_queue_properties"/> supported by the <see cref="ComputeDevice"/>. </value>
-        public cl_command_queue_properties CommandQueueFlags => _queueProperties;
+        /// <value> The <see cref="ComputeCommandQueueFlags"/> supported by the <see cref="ComputeDevice"/>. </value>
+        public ComputeCommandQueueFlags CommandQueueFlags => _queueProperties;
 
         /// <summary>
         /// Gets the availability state of the OpenCL compiler of the <see cref="ComputeDevice.Platform"/>.
@@ -155,10 +155,10 @@ namespace Cloo
         public bool ErrorCorrectionSupport => _errorCorrectionSupport;
 
         /// <summary>
-        /// Gets the <see cref="cl_device_exec_capabilities"/> of the <see cref="ComputeDevice"/>.
+        /// Gets the <see cref="ComputeDeviceExecutionCapabilities"/> of the <see cref="ComputeDevice"/>.
         /// </summary>
-        /// <value> The <see cref="cl_device_exec_capabilities"/> of the <see cref="ComputeDevice"/>. </value>
-        public cl_device_exec_capabilities ExecutionCapabilities => _executionCapabilities;
+        /// <value> The <see cref="ComputeDeviceExecutionCapabilities"/> of the <see cref="ComputeDevice"/>. </value>
+        public ComputeDeviceExecutionCapabilities ExecutionCapabilities => _executionCapabilities;
 
         /// <summary>
         /// Gets a read-only collection of names of extensions that the <see cref="ComputeDevice"/> supports.
@@ -179,10 +179,10 @@ namespace Cloo
         public long GlobalMemoryCacheSize => _globalMemoryCacheSize;
 
         /// <summary>
-        /// Gets the <see cref="cl_device_mem_cache_type"/> of the <see cref="ComputeDevice"/>.
+        /// Gets the <see cref="ComputeDeviceMemoryCacheType"/> of the <see cref="ComputeDevice"/>.
         /// </summary>
-        /// <value> The <see cref="cl_device_mem_cache_type"/> of the <see cref="ComputeDevice"/>. </value>
-        public cl_device_mem_cache_type GlobalMemoryCacheType => _globalMemoryCacheType;
+        /// <value> The <see cref="ComputeDeviceMemoryCacheType"/> of the <see cref="ComputeDevice"/>. </value>
+        public ComputeDeviceMemoryCacheType GlobalMemoryCacheType => _globalMemoryCacheType;
 
         /// <summary>
         /// Gets the size of the global <see cref="ComputeDevice"/> memory in bytes.
@@ -233,10 +233,10 @@ namespace Cloo
         public long LocalMemorySize => _localMemorySize;
 
         /// <summary>
-        /// Gets the <see cref="cl_device_local_mem_type"/> that is supported on the <see cref="ComputeDevice"/>.
+        /// Gets the <see cref="ComputeDeviceLocalMemoryType"/> that is supported on the <see cref="ComputeDevice"/>.
         /// </summary>
-        /// <value> The <see cref="cl_device_local_mem_type"/> that is supported on the <see cref="ComputeDevice"/>. </value>
-        public cl_device_local_mem_type LocalMemoryType => _localMemoryType;
+        /// <value> The <see cref="ComputeDeviceLocalMemoryType"/> that is supported on the <see cref="ComputeDevice"/>. </value>
+        public ComputeDeviceLocalMemoryType LocalMemoryType => _localMemoryType;
 
         /// <summary>
         /// Gets the maximum configured clock frequency of the <see cref="ComputeDevice"/> in MHz.
@@ -346,7 +346,7 @@ namespace Cloo
         /// </summary>
         /// <value> The <see cref="ComputeDevice"/>'s preferred native vector width size for vector of <c>double</c>s or 0 if the <c>cl_khr_fp64</c> format is not supported. </value>
         /// <remarks> The vector width is defined as the number of scalar elements that can be stored in the vector. </remarks>
-        public long PreferredVectorWidthDouble => GetInfo<uint>(cl_device_info.CL_DEVICE_PREFERRED_VECTOR_WIDTH_DOUBLE);
+        public long PreferredVectorWidthDouble => GetInfo<uint>(ComputeDeviceInfo.PreferredVectorWidthDouble);
 
         /// <summary>
         /// Gets the <see cref="ComputeDevice"/>'s preferred native vector width size for vector of <c>float</c>s.
@@ -360,7 +360,7 @@ namespace Cloo
         /// </summary>
         /// <value> The <see cref="ComputeDevice"/>'s preferred native vector width size for vector of <c>half</c>s or 0 if the <c>cl_khr_fp16</c> format is not supported. </value>
         /// <remarks> The vector width is defined as the number of scalar elements that can be stored in the vector. </remarks>
-        public long PreferredVectorWidthHalf => GetInfo<uint>(cl_device_info.CL_DEVICE_PREFERRED_VECTOR_WIDTH_HALF);
+        public long PreferredVectorWidthHalf => GetInfo<uint>(ComputeDeviceInfo.PreferredVectorWidthHalf);
 
         /// <summary>
         /// Gets the <see cref="ComputeDevice"/>'s preferred native vector width size for vector of <c>int</c>s.
@@ -408,16 +408,16 @@ namespace Cloo
         public long ProfilingTimerResolution => _profilingTimerResolution;
 
         /// <summary>
-        /// Gets the <see cref="cl_device_fp_config"/> of the <see cref="ComputeDevice"/>.
+        /// Gets the <see cref="ComputeDeviceSingleCapabilities"/> of the <see cref="ComputeDevice"/>.
         /// </summary>
-        /// <value> The <see cref="cl_device_fp_config"/> of the <see cref="ComputeDevice"/>. </value>
-        public cl_device_fp_config SingleCapabilites => _singleCapabilities;
+        /// <value> The <see cref="ComputeDeviceSingleCapabilities"/> of the <see cref="ComputeDevice"/>. </value>
+        public ComputeDeviceSingleCapabilities SingleCapabilites => _singleCapabilities;
 
         /// <summary>
-        /// Gets the <see cref="cl_device_type"/> of the <see cref="ComputeDevice"/>.
+        /// Gets the <see cref="ComputeDeviceType"/> of the <see cref="ComputeDevice"/>.
         /// </summary>
-        /// <value> The <see cref="cl_device_type"/> of the <see cref="ComputeDevice"/>. </value>
-        public cl_device_type Type => _type;
+        /// <value> The <see cref="ComputeDeviceType"/> of the <see cref="ComputeDevice"/>. </value>
+        public ComputeDeviceType Type => _type;
 
         /// <summary>
         /// Gets the <see cref="ComputeDevice"/> vendor name string.
@@ -453,7 +453,7 @@ namespace Cloo
         /// </summary>
         /// <value> Is <c>true</c> if the <see cref="ComputeDevice"/> and the host have a unified memory subsystem and <c>false</c> otherwise. </value>
         /// <remarks> Requires OpenCL 1.1 </remarks>
-        public bool HostUnifiedMemory => GetBoolInfo(cl_device_info.CL_DEVICE_HOST_UNIFIED_MEMORY);
+        public bool HostUnifiedMemory => GetBoolInfo(ComputeDeviceInfo.HostUnifiedMemory);
 
         /// <summary>
         /// Gets the native ISA vector width size for vector of <c>char</c>s.
@@ -463,7 +463,7 @@ namespace Cloo
         ///     <para> The vector width is defined as the number of scalar elements that can be stored in the vector. </para>
         ///     <para> Requires OpenCL 1.1 </para>
         /// </remarks>
-        public long NativeVectorWidthChar => GetInfo<long>(cl_device_info.CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR);
+        public long NativeVectorWidthChar => GetInfo<long>(ComputeDeviceInfo.NativeVectorWidthChar);
 
         /// <summary>
         /// Gets the native ISA vector width size for vector of <c>double</c>s or 0 if the <c>cl_khr_fp64</c> format is not supported.
@@ -473,7 +473,7 @@ namespace Cloo
         ///     <para> The vector width is defined as the number of scalar elements that can be stored in the vector. </para>
         ///     <para> Requires OpenCL 1.1 </para>
         /// </remarks>
-        public long NativeVectorWidthDouble => GetInfo<long>(cl_device_info.CL_DEVICE_NATIVE_VECTOR_WIDTH_DOUBLE);
+        public long NativeVectorWidthDouble => GetInfo<long>(ComputeDeviceInfo.NativeVectorWidthDouble);
 
         /// <summary>
         /// Gets the native ISA vector width size for vector of <c>float</c>s.
@@ -483,7 +483,7 @@ namespace Cloo
         ///     <para> The vector width is defined as the number of scalar elements that can be stored in the vector. </para>
         ///     <para> Requires OpenCL 1.1 </para>
         /// </remarks>
-        public long NativeVectorWidthFloat => GetInfo<long>(cl_device_info.CL_DEVICE_NATIVE_VECTOR_WIDTH_FLOAT);
+        public long NativeVectorWidthFloat => GetInfo<long>(ComputeDeviceInfo.NativeVectorWidthFloat);
 
         /// <summary>
         /// Gets the native ISA vector width size for vector of <c>half</c>s or 0 if the <c>cl_khr_fp16</c> format is not supported.
@@ -493,7 +493,7 @@ namespace Cloo
         ///     <para> The vector width is defined as the number of scalar elements that can be stored in the vector. </para>
         ///     <para> Requires OpenCL 1.1 </para>
         /// </remarks>
-        public long NativeVectorWidthHalf => GetInfo<long>(cl_device_info.CL_DEVICE_NATIVE_VECTOR_WIDTH_HALF);
+        public long NativeVectorWidthHalf => GetInfo<long>(ComputeDeviceInfo.NativeVectorWidthHalf);
 
         /// <summary>
         /// Gets the native ISA vector width size for vector of <c>int</c>s.
@@ -503,7 +503,7 @@ namespace Cloo
         ///     <para> The vector width is defined as the number of scalar elements that can be stored in the vector. </para>
         ///     <para> Requires OpenCL 1.1 </para>
         /// </remarks>
-        public long NativeVectorWidthInt => GetInfo<long>(cl_device_info.CL_DEVICE_NATIVE_VECTOR_WIDTH_INT);
+        public long NativeVectorWidthInt => GetInfo<long>(ComputeDeviceInfo.NativeVectorWidthInt);
 
         /// <summary>
         /// Gets the native ISA vector width size for vector of <c>long</c>s.
@@ -513,7 +513,7 @@ namespace Cloo
         ///     <para> The vector width is defined as the number of scalar elements that can be stored in the vector. </para>
         ///     <para> Requires OpenCL 1.1 </para>
         /// </remarks>
-        public long NativeVectorWidthLong => GetInfo<long>(cl_device_info.CL_DEVICE_NATIVE_VECTOR_WIDTH_LONG);
+        public long NativeVectorWidthLong => GetInfo<long>(ComputeDeviceInfo.NativeVectorWidthLong);
 
         /// <summary>
         /// Gets the native ISA vector width size for vector of <c>short</c>s.
@@ -523,7 +523,7 @@ namespace Cloo
         ///     <para> The vector width is defined as the number of scalar elements that can be stored in the vector. </para>
         ///     <para> Requires OpenCL 1.1 </para>
         /// </remarks>
-        public long NativeVectorWidthShort => GetInfo<long>(cl_device_info.CL_DEVICE_NATIVE_VECTOR_WIDTH_SHORT);
+        public long NativeVectorWidthShort => GetInfo<long>(ComputeDeviceInfo.NativeVectorWidthShort);
 
         /// <summary>
         /// Gets the OpenCL C version supported by the <see cref="ComputeDevice"/>.
@@ -537,7 +537,7 @@ namespace Cloo
         /// </summary>
         /// <value> The OpenCL C version string supported by the <see cref="ComputeDevice"/>. The version string has the following format: <c>OpenCL[space]C[space][major_version].[minor_version][space][vendor-specific information]</c>. </value>
         /// <remarks> Requires OpenCL 1.1. </remarks>
-        public string OpenCLCVersionString => GetStringInfo(cl_device_info.CL_DEVICE_OPENCL_C_VERSION);
+        public string OpenCLCVersionString => GetStringInfo(ComputeDeviceInfo.OpenCL_C_Version);
 
         #endregion
 
@@ -548,75 +548,75 @@ namespace Cloo
             Handle = handle;
             SetID(Handle.Value);
 
-            _addressBits = GetInfo<uint>(cl_device_info.CL_DEVICE_ADDRESS_BITS);
-            _available = GetBoolInfo(cl_device_info.CL_DEVICE_AVAILABLE);
-            _compilerAvailable = GetBoolInfo(cl_device_info.CL_DEVICE_COMPILER_AVAILABLE);
-            _driverVersion = GetStringInfo(cl_device_info.CL_DRIVER_VERSION);
-            _endianLittle = GetBoolInfo(cl_device_info.CL_DEVICE_ENDIAN_LITTLE);
-            _errorCorrectionSupport = GetBoolInfo(cl_device_info.CL_DEVICE_ERROR_CORRECTION_SUPPORT);
-            _executionCapabilities = (cl_device_exec_capabilities)GetInfo<long>(cl_device_info.CL_DEVICE_EXECUTION_CAPABILITIES);
+            _addressBits = GetInfo<uint>(ComputeDeviceInfo.AddressBits);
+            _available = GetBoolInfo(ComputeDeviceInfo.Available);
+            _compilerAvailable = GetBoolInfo(ComputeDeviceInfo.CompilerAvailable);
+            _driverVersion = GetStringInfo(ComputeDeviceInfo.DriverVersion);
+            _endianLittle = GetBoolInfo(ComputeDeviceInfo.EndianLittle);
+            _errorCorrectionSupport = GetBoolInfo(ComputeDeviceInfo.ErrorCorrectionSupport);
+            _executionCapabilities = (ComputeDeviceExecutionCapabilities)GetInfo<long>(ComputeDeviceInfo.ExecutionCapabilities);
 
-            string extensionString = GetStringInfo(cl_device_info.CL_DEVICE_EXTENSIONS);
+            string extensionString = GetStringInfo(ComputeDeviceInfo.Extensions);
             _extensions = new ReadOnlyCollection<string>(extensionString.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
-            _globalMemoryCachelineSize = GetInfo<uint>(cl_device_info.CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE);
-            _globalMemoryCacheSize = (long)GetInfo<ulong>(cl_device_info.CL_DEVICE_GLOBAL_MEM_CACHE_SIZE);
-            _globalMemoryCacheType = (cl_device_mem_cache_type)GetInfo<long>(cl_device_info.CL_DEVICE_GLOBAL_MEM_CACHE_TYPE);
-            _globalMemorySize = (long)GetInfo<ulong>(cl_device_info.CL_DEVICE_GLOBAL_MEM_SIZE);
-            _image2DMaxHeight = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_IMAGE2D_MAX_HEIGHT);
-            _image2DMaxWidth = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_IMAGE2D_MAX_WIDTH);
-            _image3DMaxDepth = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_IMAGE3D_MAX_DEPTH);
-            _image3DMaxHeight = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_IMAGE3D_MAX_HEIGHT);
-            _image3DMaxWidth = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_IMAGE3D_MAX_WIDTH);
-            _imageSupport = GetBoolInfo(cl_device_info.CL_DEVICE_IMAGE_SUPPORT);
-            _localMemorySize = (long)GetInfo<ulong>(cl_device_info.CL_DEVICE_LOCAL_MEM_SIZE);
-            _localMemoryType = (cl_device_local_mem_type)GetInfo<long>(cl_device_info.CL_DEVICE_LOCAL_MEM_TYPE);
-            _maxClockFrequency = GetInfo<uint>(cl_device_info.CL_DEVICE_MAX_CLOCK_FREQUENCY);
-            _maxComputeUnits = GetInfo<uint>(cl_device_info.CL_DEVICE_MAX_COMPUTE_UNITS);
-            _maxConstantArguments = GetInfo<uint>(cl_device_info.CL_DEVICE_MAX_CONSTANT_ARGS);
-            _maxConstantBufferSize = (long)GetInfo<ulong>(cl_device_info.CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE);
-            _maxMemAllocSize = (long)GetInfo<ulong>(cl_device_info.CL_DEVICE_MAX_MEM_ALLOC_SIZE);
-            _maxParameterSize = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_MAX_PARAMETER_SIZE);
-            _maxReadImageArgs = GetInfo<uint>(cl_device_info.CL_DEVICE_MAX_READ_IMAGE_ARGS);
-            _maxSamplers = GetInfo<uint>(cl_device_info.CL_DEVICE_MAX_SAMPLERS);
-            _maxWorkGroupSize = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_MAX_WORK_GROUP_SIZE);
-            _maxWorkItemDimensions = GetInfo<uint>(cl_device_info.CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS);
-            _maxWorkItemSizes = new ReadOnlyCollection<long>(ComputeTools.ConvertArray(GetArrayInfo<CLDeviceHandle, cl_device_info, IntPtr>(Handle, cl_device_info.CL_DEVICE_MAX_WORK_ITEM_SIZES, CL12.GetDeviceInfo)));
-            _maxWriteImageArgs = GetInfo<uint>(cl_device_info.CL_DEVICE_MAX_WRITE_IMAGE_ARGS);
-            _memBaseAddrAlign = GetInfo<uint>(cl_device_info.CL_DEVICE_MEM_BASE_ADDR_ALIGN);
-            _minDataTypeAlignSize = GetInfo<uint>(cl_device_info.CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE);
-            _name = GetStringInfo(cl_device_info.CL_DEVICE_NAME);
+            _globalMemoryCachelineSize = GetInfo<uint>(ComputeDeviceInfo.GlobalMemoryCachelineSize);
+            _globalMemoryCacheSize = (long)GetInfo<ulong>(ComputeDeviceInfo.GlobalMemoryCacheSize);
+            _globalMemoryCacheType = (ComputeDeviceMemoryCacheType)GetInfo<long>(ComputeDeviceInfo.GlobalMemoryCcacheType);
+            _globalMemorySize = (long)GetInfo<ulong>(ComputeDeviceInfo.GlobalMemorySize);
+            _image2DMaxHeight = (long)GetInfo<IntPtr>(ComputeDeviceInfo.Image2DMaxHeight);
+            _image2DMaxWidth = (long)GetInfo<IntPtr>(ComputeDeviceInfo.Image2DMaxWidth);
+            _image3DMaxDepth = (long)GetInfo<IntPtr>(ComputeDeviceInfo.Image3DMaxDepth);
+            _image3DMaxHeight = (long)GetInfo<IntPtr>(ComputeDeviceInfo.Image3DMaxHeight);
+            _image3DMaxWidth = (long)GetInfo<IntPtr>(ComputeDeviceInfo.Image3DMaxWidth);
+            _imageSupport = GetBoolInfo(ComputeDeviceInfo.ImageSupport);
+            _localMemorySize = (long)GetInfo<ulong>(ComputeDeviceInfo.LolcalMemorySize);
+            _localMemoryType = (ComputeDeviceLocalMemoryType)GetInfo<long>(ComputeDeviceInfo.LocalMemoryType);
+            _maxClockFrequency = GetInfo<uint>(ComputeDeviceInfo.MaxClockFrequency);
+            _maxComputeUnits = GetInfo<uint>(ComputeDeviceInfo.MaxComputeUnits);
+            _maxConstantArguments = GetInfo<uint>(ComputeDeviceInfo.MaxConstantArgs);
+            _maxConstantBufferSize = (long)GetInfo<ulong>(ComputeDeviceInfo.MaxConstantBufferSize);
+            _maxMemAllocSize = (long)GetInfo<ulong>(ComputeDeviceInfo.MaxMemoryAllocationSize);
+            _maxParameterSize = (long)GetInfo<IntPtr>(ComputeDeviceInfo.MaxParameterSize);
+            _maxReadImageArgs = GetInfo<uint>(ComputeDeviceInfo.MaxReadImageArguments);
+            _maxSamplers = GetInfo<uint>(ComputeDeviceInfo.MaxSamplers);
+            _maxWorkGroupSize = (long)GetInfo<IntPtr>(ComputeDeviceInfo.MaxWorkGroupSize);
+            _maxWorkItemDimensions = GetInfo<uint>(ComputeDeviceInfo.MaxWorkItemDimensions);
+            _maxWorkItemSizes = new ReadOnlyCollection<long>(ComputeTools.ConvertArray(GetArrayInfo<CLDeviceHandle, ComputeDeviceInfo, IntPtr>(Handle, ComputeDeviceInfo.MaxWorkItemSizes, CL12.GetDeviceInfo)));
+            _maxWriteImageArgs = GetInfo<uint>(ComputeDeviceInfo.MaxWriteImageArguments);
+            _memBaseAddrAlign = GetInfo<uint>(ComputeDeviceInfo.MemoryBaseAddressAlign);
+            _minDataTypeAlignSize = GetInfo<uint>(ComputeDeviceInfo.MinDataTypeAlignSize);
+            _name = GetStringInfo(ComputeDeviceInfo.Name);
             _platform = platform;
-            _preferredVectorWidthChar = GetInfo<uint>(cl_device_info.CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR);
-            _preferredVectorWidthFloat = GetInfo<uint>(cl_device_info.CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT);
-            _preferredVectorWidthInt = GetInfo<uint>(cl_device_info.CL_DEVICE_PREFERRED_VECTOR_WIDTH_INT);
-            _preferredVectorWidthLong = GetInfo<uint>(cl_device_info.CL_DEVICE_PREFERRED_VECTOR_WIDTH_LONG);
-            _preferredVectorWidthShort = GetInfo<uint>(cl_device_info.CL_DEVICE_PREFERRED_VECTOR_WIDTH_SHORT);
-            _profile = GetStringInfo(cl_device_info.CL_DEVICE_PROFILE);
-            _profilingTimerResolution = (long)GetInfo<IntPtr>(cl_device_info.CL_DEVICE_PROFILING_TIMER_RESOLUTION);
-            _queueProperties = (cl_command_queue_properties)GetInfo<long>(cl_device_info.CL_DEVICE_QUEUE_PROPERTIES);
-            _singleCapabilities = (cl_device_fp_config)GetInfo<long>(cl_device_info.CL_DEVICE_SINGLE_FP_CONFIG);
-            _type = (cl_device_type)GetInfo<long>(cl_device_info.CL_DEVICE_TYPE);
-            _vendor = GetStringInfo(cl_device_info.CL_DEVICE_VENDOR);
-            _vendorId = GetInfo<uint>(cl_device_info.CL_DEVICE_VENDOR_ID);
-            _version = GetStringInfo(cl_device_info.CL_DEVICE_VERSION);
+            _preferredVectorWidthChar = GetInfo<uint>(ComputeDeviceInfo.PreferredVectorWidthChar);
+            _preferredVectorWidthFloat = GetInfo<uint>(ComputeDeviceInfo.PreferredVectorWidthFloat);
+            _preferredVectorWidthInt = GetInfo<uint>(ComputeDeviceInfo.PreferredVectorWidthInt);
+            _preferredVectorWidthLong = GetInfo<uint>(ComputeDeviceInfo.PreferredVectorWidthLong);
+            _preferredVectorWidthShort = GetInfo<uint>(ComputeDeviceInfo.PreferredVectorWidthShort);
+            _profile = GetStringInfo(ComputeDeviceInfo.Profile);
+            _profilingTimerResolution = (long)GetInfo<IntPtr>(ComputeDeviceInfo.ProfilingTimerResolution);
+            _queueProperties = (ComputeCommandQueueFlags)GetInfo<long>(ComputeDeviceInfo.QueueProperties);
+            _singleCapabilities = (ComputeDeviceSingleCapabilities)GetInfo<long>(ComputeDeviceInfo.SingleFloatingPointConfig);
+            _type = (ComputeDeviceType)GetInfo<long>(ComputeDeviceInfo.Type);
+            _vendor = GetStringInfo(ComputeDeviceInfo.Vendor);
+            _vendorId = GetInfo<uint>(ComputeDeviceInfo.VendorID);
+            _version = GetStringInfo(ComputeDeviceInfo.DeviceVersion);
         }
 
         #endregion
 
         #region Private methods
 
-        private bool GetBoolInfo(cl_device_info paramName)
+        private bool GetBoolInfo(ComputeDeviceInfo paramName)
         {
             return GetBoolInfo(Handle, paramName, CL12.GetDeviceInfo);
         }
 
-        private TNativeType GetInfo<TNativeType>(cl_device_info paramName) where TNativeType : struct
+        private TNativeType GetInfo<TNativeType>(ComputeDeviceInfo paramName) where TNativeType : struct
         {
-            return GetInfo<CLDeviceHandle, cl_device_info, TNativeType>(Handle, paramName, CL12.GetDeviceInfo);
+            return GetInfo<CLDeviceHandle, ComputeDeviceInfo, TNativeType>(Handle, paramName, CL12.GetDeviceInfo);
         }
 
-        private string GetStringInfo(cl_device_info paramName)
+        private string GetStringInfo(ComputeDeviceInfo paramName)
         {
             return GetStringInfo(Handle, paramName, CL12.GetDeviceInfo);
         }

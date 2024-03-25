@@ -92,7 +92,7 @@ namespace Cloo
         /// </summary>
         /// <param name="context"></param>
         /// <param name="flags"></param>
-        protected ComputeImage(ComputeContext context, cl_mem_flags flags)
+        protected ComputeImage(ComputeContext context, ComputeMemoryFlags flags)
             : base(context, flags)
         { }
 
@@ -107,7 +107,7 @@ namespace Cloo
         /// <param name="flags"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        protected static ICollection<ComputeImageFormat> GetSupportedFormats(ComputeContext context, cl_mem_flags flags, cl_mem_object_type type)
+        protected static ICollection<ComputeImageFormat> GetSupportedFormats(ComputeContext context, ComputeMemoryFlags flags, ComputeMemoryType type)
         {
             ComputeErrorCode error = CL12.GetSupportedImageFormats(context.Handle, flags, type, 0, null, out var formatCountRet);
             ComputeException.ThrowOnError(error);
@@ -126,13 +126,13 @@ namespace Cloo
         {
             SetID(Handle.Value);
 
-            Depth = (int)GetInfo<CLMemoryHandle, cl_image_info, IntPtr>(Handle, cl_image_info.CL_IMAGE_DEPTH, CL12.GetImageInfo);
-            ElementSize = (int)GetInfo<CLMemoryHandle, cl_image_info, IntPtr>(Handle, cl_image_info.CL_IMAGE_ELEMENT_SIZE, CL12.GetImageInfo);
-            Height = (int)GetInfo<CLMemoryHandle, cl_image_info, IntPtr>(Handle, cl_image_info.CL_IMAGE_HEIGHT, CL12.GetImageInfo);
-            RowPitch = (long)GetInfo<CLMemoryHandle, cl_image_info, IntPtr>(Handle, cl_image_info.CL_IMAGE_ROW_PITCH, CL12.GetImageInfo);
-            Size = (long)GetInfo<CLMemoryHandle, cl_mem_info, IntPtr>(Handle, cl_mem_info.CL_MEM_SIZE, CL12.GetMemObjectInfo);
-            SlicePitch = (long)GetInfo<CLMemoryHandle, cl_image_info, IntPtr>(Handle, cl_image_info.CL_IMAGE_SLICE_PITCH, CL12.GetImageInfo);
-            Width = (int)GetInfo<CLMemoryHandle, cl_image_info, IntPtr>(Handle, cl_image_info.CL_IMAGE_WIDTH, CL12.GetImageInfo);
+            Depth = (int)GetInfo<CLMemoryHandle, ComputeImageInfo, IntPtr>(Handle, ComputeImageInfo.Depth, CL12.GetImageInfo);
+            ElementSize = (int)GetInfo<CLMemoryHandle, ComputeImageInfo, IntPtr>(Handle, ComputeImageInfo.ElementSize, CL12.GetImageInfo);
+            Height = (int)GetInfo<CLMemoryHandle, ComputeImageInfo, IntPtr>(Handle, ComputeImageInfo.Height, CL12.GetImageInfo);
+            RowPitch = (long)GetInfo<CLMemoryHandle, ComputeImageInfo, IntPtr>(Handle, ComputeImageInfo.RowPitch, CL12.GetImageInfo);
+            Size = (long)GetInfo<CLMemoryHandle, ComputeMemoryInfo, IntPtr>(Handle, ComputeMemoryInfo.Size, CL12.GetMemObjectInfo);
+            SlicePitch = (long)GetInfo<CLMemoryHandle, ComputeImageInfo, IntPtr>(Handle, ComputeImageInfo.SlicePitch, CL12.GetImageInfo);
+            Width = (int)GetInfo<CLMemoryHandle, ComputeImageInfo, IntPtr>(Handle, ComputeImageInfo.Width, CL12.GetImageInfo);
 
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
         }

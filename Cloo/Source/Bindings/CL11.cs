@@ -49,8 +49,8 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateSubBuffer")]
         public static extern CLMemoryHandle CreateSubBuffer(
             CLMemoryHandle buffer,
-            cl_mem_flags flags,
-            cl_buffer_create_type buffer_create_type,
+            ComputeMemoryFlags flags,
+            ComputeBufferCreateType buffer_create_type,
             ref SysIntX2 buffer_create_info,
             out ComputeErrorCode errcode_ret);
 
@@ -157,9 +157,9 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.1.")]
         public new static ComputeErrorCode SetCommandQueueProperty(
             CLCommandQueueHandle command_queue,
-            cl_command_queue_properties properties,
+            ComputeCommandQueueFlags properties,
             [MarshalAs(UnmanagedType.Bool)] bool enable,
-            out cl_command_queue_properties old_properties)
+            out ComputeCommandQueueFlags old_properties)
         {
             Debug.WriteLine("WARNING! clSetCommandQueueProperty has been deprecated in OpenCL 1.1.");
             return CL10.SetCommandQueueProperty(command_queue, properties, enable, out old_properties);

@@ -67,7 +67,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateBuffer")]
         public static extern CLMemoryHandle CreateBuffer(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             IntPtr size,
             IntPtr host_ptr,
             out ComputeErrorCode errcode_ret);
@@ -80,7 +80,7 @@ namespace Cloo.Bindings
         public static extern CLCommandQueueHandle CreateCommandQueue(
             CLContextHandle context,
             CLDeviceHandle device,
-            cl_command_queue_properties properties,
+            ComputeCommandQueueFlags properties,
             out ComputeErrorCode errcode_ret);
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateContextFromType")]
         public static extern CLContextHandle CreateContextFromType(
             [MarshalAs(UnmanagedType.LPArray)] IntPtr[] properties,
-            cl_device_type device_type,
+            ComputeDeviceType device_type,
             cl_context_callback pfn_notify,
             IntPtr user_data,
             out ComputeErrorCode errcode_ret);
@@ -113,7 +113,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateImage2D")]
         public static extern CLMemoryHandle CreateImage2D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             ref ComputeImageFormat image_format,
             IntPtr image_width,
             IntPtr image_height,
@@ -128,7 +128,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateImage3D")]
         public static extern CLMemoryHandle CreateImage3D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             ref ComputeImageFormat image_format,
             IntPtr image_width,
             IntPtr image_height,
@@ -189,8 +189,8 @@ namespace Cloo.Bindings
         public static extern CLSamplerHandle CreateSampler(
             CLContextHandle context,
             [MarshalAs(UnmanagedType.Bool)] bool normalized_coords,
-            cl_addressing_mode addressing_mode,
-            cl_filter_mode filter_mode,
+            ComputeImageAddressing addressing_mode,
+            ComputeImageFiltering filter_mode,
             out ComputeErrorCode errcode_ret);
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Cloo.Bindings
             CLCommandQueueHandle command_queue,
             CLMemoryHandle buffer,
             [MarshalAs(UnmanagedType.Bool)] bool blocking_map,
-            cl_map_flags map_flags,
+            ComputeMemoryMappingFlags map_flags,
             IntPtr offset,
             IntPtr size,
             int num_events_in_wait_list,
@@ -286,7 +286,7 @@ namespace Cloo.Bindings
             CLCommandQueueHandle command_queue,
             CLMemoryHandle image,
             [MarshalAs(UnmanagedType.Bool)] bool blocking_map,
-            cl_map_flags map_flags,
+            ComputeMemoryMappingFlags map_flags,
             ref SysIntX3 origin,
             ref SysIntX3 region,
             out IntPtr image_row_pitch,
@@ -455,7 +455,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetCommandQueueInfo")]
         public static extern ComputeErrorCode GetCommandQueueInfo(
             CLCommandQueueHandle command_queue,
-            cl_command_queue_info param_name,
+            ComputeCommandQueueInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -466,7 +466,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetContextInfo")]
         public static extern ComputeErrorCode GetContextInfo(
             CLContextHandle context,
-            cl_context_info param_name,
+            ComputeContextInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -477,7 +477,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetDeviceIDs")]
         public static extern ComputeErrorCode GetDeviceIDs(
             CLPlatformHandle platform,
-            cl_device_type device_type,
+            ComputeDeviceType device_type,
             int num_entries,
             [Out, MarshalAs(UnmanagedType.LPArray)] CLDeviceHandle[] devices,
             out int num_devices);
@@ -488,7 +488,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetDeviceInfo")]
         public static extern ComputeErrorCode GetDeviceInfo(
             CLDeviceHandle device,
-            cl_device_info param_name,
+            ComputeDeviceInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -499,7 +499,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetEventInfo")]
         public static extern ComputeErrorCode GetEventInfo(
             CLEventHandle @event,
-            cl_event_info param_name,
+            ComputeEventInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -510,7 +510,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetEventProfilingInfo")]
         public static extern ComputeErrorCode GetEventProfilingInfo(
             CLEventHandle @event,
-            cl_profiling_info param_name,
+            ComputeCommandProfilingInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -521,7 +521,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetImageInfo")]
         public static extern ComputeErrorCode GetImageInfo(
             CLMemoryHandle image,
-            cl_image_info param_name,
+            ComputeImageInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -532,7 +532,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetKernelInfo")]
         public static extern ComputeErrorCode GetKernelInfo(
             CLKernelHandle kernel,
-            cl_kernel_info param_name,
+            ComputeKernelInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -544,7 +544,7 @@ namespace Cloo.Bindings
         public static extern ComputeErrorCode GetKernelWorkGroupInfo(
             CLKernelHandle kernel,
             CLDeviceHandle device,
-            cl_kernel_work_group_info param_name,
+            ComputeKernelWorkGroupInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -555,7 +555,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetMemObjectInfo")]
         public static extern ComputeErrorCode GetMemObjectInfo(
             CLMemoryHandle memobj,
-            cl_mem_info param_name,
+            ComputeMemoryInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -575,7 +575,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetPlatformInfo")]
         public static extern ComputeErrorCode GetPlatformInfo(
             CLPlatformHandle platform,
-            cl_platform_info param_name,
+            ComputePlatformInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -587,7 +587,7 @@ namespace Cloo.Bindings
         public static extern ComputeErrorCode GetProgramBuildInfo(
             CLProgramHandle program,
             CLDeviceHandle device,
-            cl_program_build_info param_name,
+            ComputeProgramBuildInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -598,7 +598,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetProgramInfo")]
         public static extern ComputeErrorCode GetProgramInfo(
             CLProgramHandle program,
-            cl_program_info param_name,
+            ComputeProgramInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -609,7 +609,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetSamplerInfo")]
         public static extern ComputeErrorCode GetSamplerInfo(
             CLSamplerHandle sample,
-            cl_sampler_info param_name,
+            ComputeSamplerInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -620,8 +620,8 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clGetSupportedImageFormats")]
         public static extern ComputeErrorCode GetSupportedImageFormats(
             CLContextHandle context,
-            cl_mem_flags flags,
-            cl_mem_object_type image_type,
+            ComputeMemoryFlags flags,
+            ComputeMemoryType image_type,
             int num_entries,
             [Out, MarshalAs(UnmanagedType.LPArray)] ComputeImageFormat[] image_formats,
             out int num_image_formats);
@@ -731,9 +731,9 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clSetCommandQueueProperty")]
         public static extern ComputeErrorCode SetCommandQueueProperty(
             CLCommandQueueHandle command_queue,
-            cl_command_queue_properties properties,
+            ComputeCommandQueueFlags properties,
             [MarshalAs(UnmanagedType.Bool)] bool enable,
-            out cl_command_queue_properties old_properties);
+            out ComputeCommandQueueFlags old_properties);
 
         /// <summary>
         /// See the OpenCL specification.
@@ -890,7 +890,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateFromGLBuffer")]
         public static extern CLMemoryHandle CreateFromGLBuffer(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             Int32 bufobj,
             out ComputeErrorCode errcode_ret);
 
@@ -900,7 +900,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateFromGLTexture2D")]
         public static extern CLMemoryHandle CreateFromGLTexture2D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             Int32 target,
             Int32 miplevel,
             Int32 texture,
@@ -912,7 +912,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateFromGLTexture3D")]
         public static extern CLMemoryHandle CreateFromGLTexture3D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             Int32 target,
             Int32 miplevel,
             Int32 texture,
@@ -924,7 +924,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateFromGLRenderbuffer")]
         public static extern CLMemoryHandle CreateFromGLRenderbuffer(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             Int32 renderbuffer,
             out ComputeErrorCode errcode_ret);
 

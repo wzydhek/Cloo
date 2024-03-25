@@ -53,14 +53,14 @@ namespace Cloo
             
             SetID(Handle.Value);
 
-            Type = (cl_command_type)GetInfo<CLEventHandle, cl_event_info, uint>(Handle, cl_event_info.CL_EVENT_COMMAND_TYPE, CL12.GetEventInfo);
+            Type = (ComputeCommandType)GetInfo<CLEventHandle, ComputeEventInfo, uint>(Handle, ComputeEventInfo.CommandType, CL12.GetEventInfo);
             Context = context;
             //HookNotifier();
 
             //Debug.WriteLine("Create " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").", "Information");
         }
 
-        internal ComputeUserEvent(ComputeContext context, CLEventHandle handle, cl_command_type type)
+        internal ComputeUserEvent(ComputeContext context, CLEventHandle handle, ComputeCommandType type)
         {
             Handle = handle;
 
@@ -78,8 +78,8 @@ namespace Cloo
         /// <summary>
         /// Sets the new status of the <see cref="ComputeUserEvent"/>.
         /// </summary>
-        /// <param name="status"> The new status of the <see cref="ComputeUserEvent"/>. Allowed value is <see cref="cl_command_execution_status.CL_COMPLETE"/>. </param>
-        public void SetStatus(cl_command_execution_status status)
+        /// <param name="status"> The new status of the <see cref="ComputeUserEvent"/>. Allowed value is <see cref="ComputeCommandExecutionStatus.Complete"/>. </param>
+        public void SetStatus(ComputeCommandExecutionStatus status)
         {
             SetStatus((int)status);
         }

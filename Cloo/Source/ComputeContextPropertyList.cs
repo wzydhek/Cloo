@@ -61,7 +61,7 @@ namespace Cloo
         {
             _properties = new List<ComputeContextProperty>
             {
-                new ComputeContextProperty(cl_context_properties.CL_CONTEXT_PLATFORM, platform.Handle.Value)
+                new ComputeContextProperty(ComputeContextPropertyName.Platform, platform.Handle.Value)
             };
         }
 
@@ -81,9 +81,9 @@ namespace Cloo
         /// <summary>
         /// Gets a <see cref="ComputeContextProperty"/> of a specified <c>ComputeContextPropertyName</c>.
         /// </summary>
-        /// <param name="name"> The <see cref="cl_context_properties"/> of the <see cref="ComputeContextProperty"/>. </param>
+        /// <param name="name"> The <see cref="ComputeContextPropertyName"/> of the <see cref="ComputeContextProperty"/>. </param>
         /// <returns> The requested <see cref="ComputeContextProperty"/> or <c>null</c> if no such <see cref="ComputeContextProperty"/> exists in the <see cref="ComputeContextPropertyList"/>. </returns>
-        public ComputeContextProperty GetByName(cl_context_properties name)
+        public ComputeContextProperty GetByName(ComputeContextPropertyName name)
         {
             foreach (ComputeContextProperty property in _properties)
                 if (property.Name == name)

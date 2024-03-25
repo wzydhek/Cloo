@@ -155,7 +155,7 @@ namespace Cloo
             SetID(Handle.Value);
             
             _properties = properties;
-            ComputeContextProperty platformProperty = properties.GetByName(cl_context_properties.CL_CONTEXT_PLATFORM);
+            ComputeContextProperty platformProperty = properties.GetByName(ComputeContextPropertyName.Platform);
             _platform = ComputePlatform.GetByHandle(platformProperty.Value);
             _devices = GetDevices();
 
@@ -163,13 +163,13 @@ namespace Cloo
         }
 
         /// <summary>
-        /// Creates a new <see cref="ComputeContext"/> on all the <see cref="ComputeDevice"/>s that match the specified <see cref="cl_device_type"/>.
+        /// Creates a new <see cref="ComputeContext"/> on all the <see cref="ComputeDevice"/>s that match the specified <see cref="ComputeDeviceType"/>.
         /// </summary>
         /// <param name="deviceType"> A bit-field that identifies the type of <see cref="ComputeDevice"/> to associate with the <see cref="ComputeContext"/>. </param>
         /// <param name="properties"> A <see cref="ComputeContextPropertyList"/> of the <see cref="ComputeContext"/>. </param>
         /// <param name="notify"> A delegate instance that refers to a notification routine. This routine is a callback function that will be used by the OpenCL implementation to report information on errors that occur in the <see cref="ComputeContext"/>. The callback function may be called asynchronously by the OpenCL implementation. It is the application's responsibility to ensure that the callback function is thread-safe and that the delegate instance doesn't get collected by the Garbage Collector until <see cref="ComputeContext"/> is disposed. If <paramref name="notify"/> is <c>null</c>, no callback function is registered. </param>
         /// <param name="userDataPtr"> Optional user data that will be passed to <paramref name="notify"/>. </param>
-        public ComputeContext(cl_device_type deviceType, ComputeContextPropertyList properties, cl_context_callback notify, IntPtr userDataPtr)
+        public ComputeContext(ComputeDeviceType deviceType, ComputeContextPropertyList properties, cl_context_callback notify, IntPtr userDataPtr)
         {
             IntPtr[] propertyArray = properties?.ToIntPtrArray();
             _callback = notify;
@@ -180,7 +180,7 @@ namespace Cloo
             SetID(Handle.Value);
 
             _properties = properties;
-            ComputeContextProperty platformProperty = properties.GetByName(cl_context_properties.CL_CONTEXT_PLATFORM);
+            ComputeContextProperty platformProperty = properties.GetByName(ComputeContextPropertyName.Platform);
             _platform = ComputePlatform.GetByHandle(platformProperty.Value);
             _devices = GetDevices();
 
@@ -211,7 +211,7 @@ namespace Cloo
             //foreach (var p in p1) p2.Add(new ComputeContextProperty(p.Name, p.Value));
 
             _properties = new ComputeContextPropertyList(p2);
-            ComputeContextProperty platformProperty = _properties.GetByName(cl_context_properties.CL_CONTEXT_PLATFORM);
+            ComputeContextProperty platformProperty = _properties.GetByName(ComputeContextPropertyName.Platform);
             _platform = ComputePlatform.GetByHandle(platformProperty.Value);
             _devices = GetDevices();
 
@@ -249,7 +249,7 @@ namespace Cloo
 
         private ReadOnlyCollection<ComputeDevice> GetDevices()
         {
-            List<CLDeviceHandle> deviceHandles = new List<CLDeviceHandle>(GetArrayInfo<CLContextHandle, cl_context_info, CLDeviceHandle>(Handle, cl_context_info.CL_CONTEXT_DEVICES, CL12.GetContextInfo));
+            List<CLDeviceHandle> deviceHandles = new List<CLDeviceHandle>(GetArrayInfo<CLContextHandle, ComputeContextInfo, CLDeviceHandle>(Handle, ComputeContextInfo.Devices, CL12.GetContextInfo));
             List<ComputeDevice> devices = new List<ComputeDevice>();
             foreach (ComputePlatform platform in ComputePlatform.Platforms)
             {

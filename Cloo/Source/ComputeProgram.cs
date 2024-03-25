@@ -269,17 +269,17 @@ namespace Cloo
         /// <returns> The build log of the <see cref="ComputeProgram"/> for <paramref name="device"/>. </returns>
         public string GetBuildLog(ComputeDevice device)
         {
-            return GetStringInfo(Handle, device.Handle, cl_program_build_info.CL_PROGRAM_BUILD_LOG, CL12.GetProgramBuildInfo);
+            return GetStringInfo(Handle, device.Handle, ComputeProgramBuildInfo.BuildLog, CL12.GetProgramBuildInfo);
         }
 
         /// <summary>
-        /// Gets the <see cref="cl_build_status"/> of the <see cref="ComputeProgram"/> for a specified <see cref="ComputeDevice"/>.
+        /// Gets the <see cref="ComputeProgramBuildStatus"/> of the <see cref="ComputeProgram"/> for a specified <see cref="ComputeDevice"/>.
         /// </summary>
         /// <param name="device"> The <see cref="ComputeDevice"/> building the <see cref="ComputeProgram"/>. Must be one of <see cref="ComputeProgram.Devices"/>. </param>
-        /// <returns> The <see cref="cl_build_status"/> of the <see cref="ComputeProgram"/> for <paramref name="device"/>. </returns>
-        public cl_build_status GetBuildStatus(ComputeDevice device)
+        /// <returns> The <see cref="ComputeProgramBuildStatus"/> of the <see cref="ComputeProgram"/> for <paramref name="device"/>. </returns>
+        public ComputeProgramBuildStatus GetBuildStatus(ComputeDevice device)
         {
-            return (cl_build_status)GetInfo<CLProgramHandle, CLDeviceHandle, cl_program_build_info, uint>(Handle, device.Handle, cl_program_build_info.CL_PROGRAM_BUILD_STATUS, CL12.GetProgramBuildInfo);
+            return (ComputeProgramBuildStatus)GetInfo<CLProgramHandle, CLDeviceHandle, ComputeProgramBuildInfo, uint>(Handle, device.Handle, ComputeProgramBuildInfo.BuildStatus, CL12.GetProgramBuildInfo);
         }
 
         #endregion
@@ -307,7 +307,7 @@ namespace Cloo
 
         private ReadOnlyCollection<byte[]> GetBinaries()
         {
-            IntPtr[] binaryLengths = GetArrayInfo<CLProgramHandle, cl_program_info, IntPtr>(Handle, cl_program_info.CL_PROGRAM_BINARY_SIZES, CL12.GetProgramInfo);
+            IntPtr[] binaryLengths = GetArrayInfo<CLProgramHandle, ComputeProgramInfo, IntPtr>(Handle, ComputeProgramInfo.BinarySizes, CL12.GetProgramInfo);
 
             GCHandle[] binariesGCHandles = new GCHandle[binaryLengths.Length];
             IntPtr[] binariesPtrs = new IntPtr[binaryLengths.Length];
@@ -324,7 +324,7 @@ namespace Cloo
                     binaries.Add(binary);
                 }
 
-                ComputeErrorCode error = CL12.GetProgramInfo(Handle, cl_program_info.CL_PROGRAM_BINARIES, new IntPtr(binariesPtrs.Length * IntPtr.Size), binariesPtrsGCHandle.AddrOfPinnedObject(), out _);
+                ComputeErrorCode error = CL12.GetProgramInfo(Handle, ComputeProgramInfo.Binaries, new IntPtr(binariesPtrs.Length * IntPtr.Size), binariesPtrsGCHandle.AddrOfPinnedObject(), out _);
                 ComputeException.ThrowOnError(error);
             }
             finally

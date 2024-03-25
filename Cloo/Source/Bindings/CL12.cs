@@ -64,7 +64,7 @@ namespace Cloo.Bindings
         [DllImport(libName, EntryPoint = "clCreateImage")]
         public static extern CLImageHandle CreateImage(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             ref cl_image_format image_format,
             cl_image_desc image_desc,
             IntPtr host_ptr,
@@ -77,7 +77,7 @@ namespace Cloo.Bindings
         public static extern CLImageHandle CreateImageWithProperties(
             CLContextHandle context,
             [MarshalAs(UnmanagedType.LPArray)] long[] properties,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             ref cl_image_format image_format,
             cl_image_desc image_desc,
             IntPtr host_ptr,
@@ -162,7 +162,7 @@ namespace Cloo.Bindings
             CLCommandQueueHandle command_queue,
             int num_mem_objects,
             [MarshalAs(UnmanagedType.LPArray)] CLMemoryHandle[] mem_objects,
-            cl_mem_migration_flags flags,
+            ComputeMemoryMigrationFlags flags,
             int num_events_in_wait_list,
             [MarshalAs(UnmanagedType.LPArray)] CLEventHandle[] event_wait_list,
             [Out, MarshalAs(UnmanagedType.LPArray, SizeConst = 1)] CLEventHandle[] new_event);
@@ -174,7 +174,7 @@ namespace Cloo.Bindings
         public static extern ComputeErrorCode GetKernelArgInfo(
             CLKernelHandle kernel,
             int arg_index,
-            cl_kernel_arg_info param_name,
+            ComputeKernelArgumentInfo param_name,
             IntPtr param_value_size,
             IntPtr param_value,
             out IntPtr param_value_size_ret);
@@ -234,7 +234,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateFromGLTexture2D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             Int32 target,
             Int32 miplevel,
             Int32 texture,
@@ -250,7 +250,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateFromGLTexture3D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             Int32 target,
             Int32 miplevel,
             Int32 texture,
@@ -266,7 +266,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateImage2D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             ref ComputeImageFormat image_format,
             IntPtr image_width,
             IntPtr image_height,
@@ -284,7 +284,7 @@ namespace Cloo.Bindings
         [Obsolete("Deprecated in OpenCL 1.2.")]
         public new static CLMemoryHandle CreateImage3D(
             CLContextHandle context,
-            cl_mem_flags flags,
+            ComputeMemoryFlags flags,
             ref ComputeImageFormat image_format,
             IntPtr image_width,
             IntPtr image_height,
@@ -366,11 +366,11 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        public cl_channel_order image_channel_order;
+        public ComputeImageChannelOrder image_channel_order;
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        public cl_channel_type image_channel_data_type;
+        public ComputeImageChannelType image_channel_data_type;
     }
 
     /// <summary>
@@ -381,7 +381,7 @@ namespace Cloo.Bindings
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>
-        public cl_mem_object_type image_type;
+        public ComputeMemoryType image_type;
         /// <summary>
         /// See the OpenCL specification.
         /// </summary>

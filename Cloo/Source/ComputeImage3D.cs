@@ -57,7 +57,7 @@ namespace Cloo
         /// <param name="slicePitch"> The size in bytes of each 2D slice in the <see cref="ComputeImage3D"/>. If <paramref name="slicePitch"/> is zero, OpenCL will compute the proper value based on <see cref="ComputeImage.RowPitch"/> and <see cref="ComputeImage.Height"/>. </param>
         /// <param name="data"> The data to initialize the <see cref="ComputeImage3D"/>. Can be <c>IntPtr.Zero</c>. </param>
         [Obsolete("Deprecated in OpenCL 1.2.")]
-        public ComputeImage3D(ComputeContext context, cl_mem_flags flags, ComputeImageFormat format, int width, int height, int depth, long rowPitch, long slicePitch, IntPtr data)
+        public ComputeImage3D(ComputeContext context, ComputeMemoryFlags flags, ComputeImageFormat format, int width, int height, int depth, long rowPitch, long slicePitch, IntPtr data)
             : base(context, flags)
         {
             Handle = CL12.CreateImage3D(context.Handle, flags, ref format, new IntPtr(width), new IntPtr(height), new IntPtr(depth), new IntPtr(rowPitch), new IntPtr(slicePitch), data, out var error);
@@ -66,7 +66,7 @@ namespace Cloo
             Init();
         }
 
-        private ComputeImage3D(CLMemoryHandle handle, ComputeContext context, cl_mem_flags flags)
+        private ComputeImage3D(CLMemoryHandle handle, ComputeContext context, ComputeMemoryFlags flags)
             : base(context, flags)
         {
             Handle = handle;
@@ -88,7 +88,7 @@ namespace Cloo
         /// <param name="textureId"> The OpenGL 2D texture object id to use. </param>
         /// <returns> The created <see cref="ComputeImage2D"/>. </returns>
         [Obsolete("Deprecated in OpenCL 1.2.")]
-        public static ComputeImage3D CreateFromGLTexture3D(ComputeContext context, cl_mem_flags flags, int textureTarget, int mipLevel, int textureId)
+        public static ComputeImage3D CreateFromGLTexture3D(ComputeContext context, ComputeMemoryFlags flags, int textureTarget, int mipLevel, int textureId)
         {
             var image = CL12.CreateFromGLTexture3D(context.Handle, flags, textureTarget, mipLevel, textureId, out var error);
             ComputeException.ThrowOnError(error);
@@ -102,9 +102,9 @@ namespace Cloo
         /// <param name="context"> The <see cref="ComputeContext"/> for which the collection of <see cref="cl_image_format"/>s is queried. </param>
         /// <param name="flags"> The <c>ComputeMemoryFlags</c> for which the collection of <see cref="cl_image_format"/>s is queried. </param>
         /// <returns> The collection of the required <see cref="cl_image_format"/>s. </returns>
-        public static ICollection<ComputeImageFormat> GetSupportedFormats(ComputeContext context, cl_mem_flags flags)
+        public static ICollection<ComputeImageFormat> GetSupportedFormats(ComputeContext context, ComputeMemoryFlags flags)
         {
-            return GetSupportedFormats(context, flags, cl_mem_object_type.CL_MEM_OBJECT_IMAGE3D);
+            return GetSupportedFormats(context, flags, ComputeMemoryType.Image3D);
         }
 
         #endregion
